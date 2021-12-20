@@ -323,6 +323,7 @@ export default defineComponent({
         message.info("您尚未登录")
       }
       // console.log('test')
+      console.log('master')
     }
     onMounted(() => {
       getUnReadMessageCountData();

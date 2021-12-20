@@ -322,7 +322,7 @@ export default defineComponent({
       } else {
         message.info("您尚未登录")
       }
-      // console.log('test')
+      console.log('push-test')
       console.log('master')
       console.log('hot-fix')
     }

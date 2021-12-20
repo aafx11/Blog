@@ -324,6 +324,7 @@ export default defineComponent({
       }
       // console.log('test')
       console.log('master')
+      console.log('hot-fix')
     }
     onMounted(() => {
       getUnReadMessageCountData();

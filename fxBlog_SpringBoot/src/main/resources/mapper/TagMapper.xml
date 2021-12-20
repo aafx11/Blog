@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djh.mapper.TagMapper">
+    <resultMap id="tags" type="com.djh.entity.Tag">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="article_id" property="articleId"/>
+    </resultMap>
+
+    <select id="tagListByPage" resultMap="tags">
+        SELECT t.id,t.`name`,t.article_count
+        FROM tag t
+        ORDER BY t.article_count  DESC
+    </select>
+</mapper>

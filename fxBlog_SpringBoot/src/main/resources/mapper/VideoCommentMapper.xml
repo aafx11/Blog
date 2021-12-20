@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djh.mapper.VideoCommentMapper">
+    <resultMap id="comment" type="com.djh.common.vo.VideoCommentVO">
+        <id column="id" property="id"/>
+        <result column="video_id" property="videoId"/>
+        <result column="content" property="content"/>
+        <result column="user_id" property="userId"/>
+        <result column="nickname" property="nickname"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="avatar" property="avatar"/>
+        <result column="created" property="created"/>
+        <result column="score" property="score"/>
+        <result column="username" property="username"/>
+        <result column="avatar_base64" property="avatarBase64"/>
+    </resultMap>
+
+    <select id="getCommentListByVideoId" resultMap="comment">
+        SELECT v.id,v.video_id,v.user_id,v.content,v.created,
+               v.parent_id,u.nickname,u.avatar,u.score,u.username,u.avatar_base64
+        FROM video_comment v
+                 LEFT JOIN user_info u
+                           on v.user_id = u.id
+        WHERE v.video_id = #{videoId}
+    </select>
+</mapper>

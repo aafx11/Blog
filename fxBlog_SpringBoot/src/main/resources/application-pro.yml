@@ -1,0 +1,38 @@
+server:
+  port: 8081
+
+# DataSource Config
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #本地
+    url: jdbc:mysql://localhost:3306/blogadmin?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    #服务器
+#    url: jdbc:mysql://47.113.204.103:3306/blogadmin?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: AaFx+398021=
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+  mvc:
+    static-path-pattern: /static/**
+  redis:
+    #服务器
+    host: 47.113.204.103
+    port: 6379
+    timeout: 50000
+    password: AaFx+398021=
+  web:
+    resources:
+      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:D:\Student\Vue_student\Blog\fxBlog_SpringBoot\src\main\resources\static\
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+djh:
+  jwt:
+    header: Authorization #jwt名称
+    expire: 604800 #jwt过期时间，7天，秒
+    secretKey: iopasdbnmzxchjkrty753961428asdjh #32位密钥
+
+
+

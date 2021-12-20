@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djh.mapper.VideoInfoMapper">
+    <resultMap id="videoMap" type="com.djh.common.vo.VideoVO">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="user_id" property="userId"/>
+        <result column="introduction" property="introduction"/>
+        <result column="comments" property="comments"/>
+        <result column="view" property="view"/>
+        <result column="collects" property="collects"/>
+        <result column="created" property="created"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="state" property="state"/>
+        <result column="cover_url" property="coverUrl"/>
+        <result column="video_url" property="videoUrl"/>
+        <result column="examine" property="examine"/>
+        <result column="avatar_base64" property="avatarBase64"/>
+
+    </resultMap>
+
+    <select id="selectVideoListByUserId" resultMap="videoMap">
+        SELECT v.id,v.title,v.user_id,v.introduction,v.comments,v.view,
+               v.collects,v.created,u.username,u.nickname,u.avatar,v.like_count,v.state,v.cover_url,
+               v.video_url,v.examine,u.avatar_base64
+        FROM video_info v
+                LEFT JOIN user_info u
+                ON v.user_id = u.id
+        WHERE v.user_id = #{userId}
+          AND (v.title like CONCAT('%',#{searchContent},'%') OR v.introduction like CONCAT('%',#{searchContent},'%')
+          OR  u.nickname like CONCAT('%',#{searchContent},'%')
+              )
+        order by v.created desc
+    </select>
+
+    <select id="selectVideoDetailByVideoId" resultMap="videoMap">
+        SELECT v.id,v.title,v.user_id,v.introduction,v.comments,v.view,
+               v.collects,v.created,u.username,u.nickname,u.avatar,v.like_count,v.state,v.cover_url,
+               v.video_url,v.examine,u.avatar_base64
+        FROM video_info v
+                LEFT JOIN user_info u
+                ON v.user_id = u.id
+        WHERE v.id = #{videoId}
+        order by v.created desc
+    </select>
+
+    <select id="selectVideoListByState" resultMap="videoMap">
+        SELECT v.id,v.title,v.user_id,v.introduction,v.comments,v.view,
+               v.collects,v.created,u.username,u.nickname,u.avatar,v.like_count,v.state,v.cover_url,
+               v.video_url,v.examine,u.avatar_base64
+        FROM video_info v
+                 LEFT JOIN user_info u
+                 ON v.user_id = u.id
+        <where>
+            <if test="tab == 'reviewed'">
+                v.state = 0
+            </if>
+            <if test="tab == 'passed'">
+                v.state = 1
+            </if>
+            <if test="tab == 'fail'">
+                v.state = 2
+            </if>
+            <if test="tab == 'all'">
+                v.title like CONCAT('%',#{searchContent},'%')
+                OR v.introduction like CONCAT('%',#{searchContent},'%')
+                OR v.created like CONCAT('%',#{searchContent},'%')
+                OR  u.nickname like CONCAT('%',#{searchContent},'%')
+            </if>
+        </where>
+        order by v.created desc
+    </select>
+
+    <select id="selectVideoOrderByView" resultMap="videoMap">
+        SELECT v.id,v.title,v.user_id,v.introduction,v.comments,v.view,
+               v.collects,v.created,u.username,u.nickname,u.avatar,v.like_count,v.state,v.cover_url,
+               v.video_url,v.examine,u.avatar_base64
+        FROM video_info v
+                 LEFT JOIN user_info u
+                 ON v.user_id = u.id
+        where v.state = 1
+        order by v.view desc
+    </select>
+
+    <select id="selectVideoOrderByCreated" resultMap="videoMap">
+        SELECT v.id,v.title,v.user_id,v.introduction,v.comments,v.view,
+               v.collects,v.created,u.username,u.nickname,u.avatar,v.like_count,v.state,v.cover_url,
+               v.video_url,v.examine,u.avatar_base64
+        FROM video_info v
+                 LEFT JOIN user_info u
+                           ON v.user_id = u.id
+        where v.state = 1
+        order by v.created desc
+    </select>
+
+    <select id="selectVideoByLike">
+        SELECT v.id,v.title,v.user_id,v.introduction,v.comments,v.view,
+               v.collects,v.created,u.username,u.nickname,u.avatar,v.like_count,v.state,v.cover_url,
+               v.video_url,v.examine,u.avatar_base64
+        FROM video_info v
+                 LEFT JOIN user_info u
+                           ON v.user_id = u.id
+        where v.state = 1
+        AND (v.title like CONCAT('%',#{searchContent},'%') or v.introduction like CONCAT('%',#{searchContent},'%')
+                                or u.nickname like CONCAT('%',#{searchContent},'%')
+            )
+        order by v.created desc
+    </select>
+
+    <select id="selectVideoByFollow" resultMap="videoMap">
+        SELECT v.id,v.title,v.user_id,v.introduction,v.comments,v.view,
+               v.collects,v.created,u.username,u.nickname,u.avatar,v.like_count,v.state,v.cover_url,
+               v.video_url,v.examine,u.avatar_base64
+        FROM video_info v
+        LEFT JOIN user_info u
+        ON v.user_id = u.id
+        WHERE v.user_id
+        IN (
+            SELECT f.follower_id
+            FROM follow f
+            where f.user_id = #{userId}
+        ) AND v.state = 1
+        order by v.created desc
+    </select>
+
+    <select id="selectVideoByTag" resultMap="videoMap">
+        SELECT v.id,v.title,v.user_id,v.introduction,v.comments,v.view,
+               v.collects,v.created,u.username,u.nickname,u.avatar,v.like_count,v.state,v.cover_url,
+               v.video_url,v.examine,u.avatar_base64
+        FROM video_info v
+                 LEFT JOIN user_info u
+                 ON v.user_id = u.id
+        WHERE v.id
+            IN (
+                  SELECT video_id
+                  FROM video_tag vtg
+                  where vtg.tag_id = #{tagId}
+              ) AND v.state = 1
+        order by v.created desc
+    </select>
+
+</mapper>

@@ -1,0 +1,24 @@
+html, body {
+    scroll-behavior:smooth;
+
+}
+
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, em, small, strong, dl, dt, dd, ol, ul, li {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+}
+a{
+    text-decoration: none;
+}
+html {
+    /*height: 100%;*/
+    /*overflow: scroll;*/
+    /*height: auto;*/
+}
+body {
+    background-color: #f5f5f5!important;
+}
+ul, ol {
+    list-style: none;
+}

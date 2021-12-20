@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djh.mapper.CommentformMapper">
+    <resultMap id="comment" type="com.djh.common.vo.commentFormVO">
+        <id column="id" property="id"/>
+        <result column="article_id" property="articleId"/>
+        <result column="content" property="content"/>
+        <result column="user_id" property="userId"/>
+        <result column="nickname" property="nickname"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="avatar" property="avatar"/>
+        <result column="created" property="created"/>
+        <result column="score" property="score"/>
+        <result column="username" property="username"/>
+        <result column="avatar_base64" property="avatarBase64"/>
+    </resultMap>
+
+    <select id="getCommentListByArticleId" resultMap="comment">
+        SELECT c.id,c.article_id,c.user_id,c.content,c.created,
+               c.parent_id,u.nickname,u.avatar,u.score,u.username,u.avatar_base64
+        FROM commentform c
+                LEFT JOIN user_info u
+                on c.user_id = u.id
+        WHERE c.article_id = #{articleId}
+    </select>
+</mapper>

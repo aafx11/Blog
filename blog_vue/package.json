@@ -1,0 +1,31 @@
+{
+  "name": "community_vue",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^6.0.1",
+    "@better-scroll/core": "^2.4.2",
+    "@element-plus/icons": "0.0.11",
+    "@kangc/v-md-editor": "^2.3.8",
+    "@vitejs/plugin-vue": "^1.4.0",
+    "ant-design-vue": "^2.2.3",
+    "axios": "^0.21.1",
+    "element-plus": "^1.0.2-beta.51",
+    "mitt": "^3.0.0",
+    "prismjs": "^1.24.1",
+    "qs": "^6.10.1",
+    "vditor": "^3.8.6",
+    "vue": "^3.0.4",
+    "vue-router": "^4.0.10",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.0.4",
+    "highlight.js": "^11.2.0",
+    "sass": "^1.42.1",
+    "vite": "^1.0.0-rc.13"
+  }
+}

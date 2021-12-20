@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djh.mapper.ArticleMapper">
+    <resultMap id="article" type="com.djh.common.vo.articleVO">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="user_id" property="userId"/>
+        <result column="content" property="content"/>
+        <result column="introduction" property="introduction"/>
+        <result column="comments" property="comments"/>
+        <result column="view" property="view"/>
+        <result column="collects" property="collects"/>
+        <result column="top" property="top"/>
+        <result column="essence" property="essence"/>
+        <result column="created" property="created"/>
+        <result column="updated" property="updated"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="avatar" property="avatar"/>
+        <result column="cover" property="cover"/>
+        <result column="like_count" property="likeCount"/>
+        <result column="avatar_base64" property="avatarBase64"/>
+        <result column="cover_base64" property="coverBase64"/>
+    </resultMap>
+
+    <select id="articleListByPage" resultMap="article">
+        SELECT
+        a.id,a.title,a.user_id,a.comments,a.introduction,
+        a.view,a.collects,a.top,a.essence,a.cover,a.cover_base64,
+            a.created ,a.updated ,a.content,a.like_count,
+        u.username,u.nickname, u.avatar,u.avatar_base64
+        FROM article a
+        LEFT JOIN user_info u
+        ON a.user_id = u.id
+<!--        <where>-->
+<!--            <if test="tab == 'hot'">-->
+<!--                date(a.created) &lt;= date_add(curdate(), interval 1 day)-->
+<!--                and date(a.created) &gt;= date_sub(curdate(), interval 7 day)-->
+<!--            </if>-->
+<!--        </where>-->
+        <if test="tab != 'hot'">
+            order by a.created desc
+        </if>
+        <if test="tab == 'hot'">
+            order by a.view desc, a.created desc
+        </if>
+    </select>
+    <select id="articleListByLikeSearch" resultMap="article">
+        SELECT  a.id,a.title,a.user_id,a.comments,a.introduction,
+                a.view,a.collects,a.top,a.essence,a.cover,a.cover_base64,
+                a.created ,a.updated ,a.content,a.like_count,
+                u.username,u.nickname, u.avatar,u.avatar_base64
+        FROM article a
+                 LEFT JOIN user_info u
+                 ON a.user_id = u.id
+        WHERE	a.title LIKE CONCAT('%',#{searchContent},'%')
+           OR a.introduction LIKE CONCAT('%',#{searchContent},'%')
+           OR a.content LIKE CONCAT('%',#{searchContent},'%')
+           OR a.id LIKE CONCAT('%',#{searchContent},'%')
+           OR u.nickname LIKE CONCAT('%',#{searchContent},'%')
+
+        order by a.created desc
+    </select>
+
+
+
+
+    <select id="articleListByFollow" resultMap="article">
+        SELECT a.id,a.title,a.user_id,a.comments,a.cover,a.cover_base64,
+               a.introduction,a.view,a.collects,a.like_count,
+               a.top,a.essence,a.created,a.updated,
+               a.content,u.username,u.nickname,u.avatar,u.avatar_base64
+        FROM article a
+        LEFT JOIN user_info u
+        ON a.user_id = u.id
+        WHERE a.user_id
+                  IN (
+                  SELECT f.follower_id
+                  FROM follow f
+                  where f.user_id = #{userId}
+              )
+        order by a.created desc
+    </select>
+
+    <select id="articleListByTag" resultMap="article">
+        SELECT
+            a.id,a.title,a.user_id,a.comments,a.introduction,
+            a.view,a.collects,a.top,a.essence,a.cover,a.cover_base64,
+            a.created ,a.updated ,a.content,a.like_count,
+            u.username,u.nickname, u.avatar,u.avatar_base64
+        FROM article a
+                 LEFT JOIN user_info u
+                           ON a.user_id = u.id
+        where a.id
+                  IN (SELECT article_id
+                     FROM article_tag art
+                     WHERE art.tag_id = #{tagId}
+                    )
+    </select>
+
+
+    <select id="articleListByUserId" resultMap="article">
+        SELECT a.id,a.title,a.user_id,a.comments,a.cover,a.cover_base64,
+               a.introduction,a.view,a.collects,a.like_count,
+               a.top,a.essence,a.created,a.updated,
+               a.content,u.username,u.nickname,u.avatar,u.avatar_base64
+        FROM article a
+                 LEFT JOIN user_info u
+                           ON a.user_id = u.id
+        WHERE a.user_id=#{userId}
+        order by a.created desc
+    </select>
+
+    <select id="articleListByIdAndLike" resultMap="article">
+        SELECT a.id,a.title,a.user_id,a.comments,a.cover,a.cover_base64,
+               a.introduction,a.view,a.collects,a.like_count,
+               a.top,a.essence,a.created,a.updated,
+               a.content,u.username,u.nickname,u.avatar,u.avatar_base64
+        FROM article a
+                 LEFT JOIN user_info u
+                           ON a.user_id = u.id
+        WHERE a.user_id=#{userId} AND (a.title like CONCAT('%',#{searchContent},'%') OR a.introduction like CONCAT('%',#{searchContent},'%') OR a.content like CONCAT('%',#{searchContent},'%'))
+        order by a.created desc
+    </select>
+
+
+</mapper>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<!--  <link rel="icon" href="/favicon.ico" />-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vite App</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
+<style>
+    /*@import "./src/assets/css/reset.css";*/
+    html, body {
+        scroll-behavior:smooth;
+        height: 100%;
+    }
+
+    html, body, div, span, h1, h2, h3, h4, h5, h6, p, em, small, strong, dl, dt, dd, ol, ul, li {
+        margin: 0;
+        padding: 0;
+        font-size: 100%;
+    }
+    a{
+        text-decoration: none;
+    }
+    html {
+        /*height: 100%;*/
+        /*overflow: scroll;*/
+        /*height: auto;*/
+    }
+    body {
+        background-color: #f5f5f5!important;
+
+    }
+    ul, ol {
+        list-style: none;
+    }
+
+
+
+    /*文章列表左侧气泡*/
+    .popper{
+            background-color: rgba(0, 0, 0, 0.6)!important;
+            /*background-color: rgb(23, 20, 29)!important;*/
+    }
+    /*.el-popover{*/
+    /*    background-color: rgba(0, 0, 0, 0.6)!important;*/
+    /*    padding: 0;*/
+    /*    color: red;*/
+
+    /*}*/
+
+     .el-popover .el-popover__title{
+         font-family: 'Voces', 'Open Sans', arial, sans-serif;
+         font-size: 1.2rem;
+         color: white ;
+
+    }
+    .el-main {
+        height: 100%;
+        width: 100%;
+        line-height: 20px !important;
+    }
+</style>

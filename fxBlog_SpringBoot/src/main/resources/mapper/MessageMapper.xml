@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djh.mapper.MessageMapper">
+    <resultMap id="message" type="com.djh.entity.Message">
+        <id column="id" property="id"/>
+        <result column="from_user_id" property="fromUserId"></result>
+        <result column="from_nickname" property="fromNickname"></result>
+        <result column="to_user_id" property="toUserId"></result>
+        <result column="to_nickname" property="toNickname"></result>
+        <result column="content" property="content"></result>
+        <result column="created" property="created"></result>
+        <result column="read_flag" property="readFlag"></result>
+        <result column="avatar" property="fromAvatar"></result>
+        <result column="avatar_base64" property="avatarBase64"/>
+
+    </resultMap>
+
+
+    <select id="selectMessageList" resultMap="message">
+        SELECT m.id,m.from_user_id,m.from_nickname,u.avatar,u.avatar_base64,
+               m.to_user_id,m.to_nickname,m.content,m.created,m.read_flag
+        FROM message m
+        LEFT JOIN user_info u
+        ON m.from_user_id = u.id
+        WHERE(
+                ( from_user_id = #{fromUserId} AND to_user_id = #{toUserId} )
+            OR  ( from_user_id = #{toUserId} AND to_user_id = #{fromUserId} )
+            )
+        ORDER BY m.created ASC
+    </select>
+</mapper>

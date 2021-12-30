@@ -211,6 +211,7 @@ export default {
       MenuList().then(res => {
         proxy.tableData = res.data.data
         proxy.tableData.push({id:0});
+
         console.log("菜单信息",proxy.tableData);
         proxy.$forceUpdate();
         tableDisable.value = true

@@ -1,13 +1,14 @@
 <template>
-  <el-row>
+  <el-row v-if="state.show">
     <el-col :span="3" :offset="10"><strong>BlogAdmin管理系统</strong></el-col>
     <el-col :span="1" :offset="8">
-      <el-avatar :src="'http://'+Info.avatar" :size="50" class="header-avatar"></el-avatar>
+<!--      <el-avatar :src="'http://localhost:8081/static/avatar/'+ state.info.avatar" :size="42" class=""></el-avatar>-->
+          <el-image :src="'http://localhost:8081/static/avatar/'+ state.info.avatar" class="header-avatar"></el-image>
     </el-col>
     <el-col :span="1">
       <el-dropdown>
               <span class="el-dropdown-link">
-                {{ Info.username }}<i class="el-icon-arrow-down el-icon--right"></i>
+                {{ state.info.username }}<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -27,7 +28,7 @@
 </template>
 
 <script>
-import {ref, reactive, getCurrentInstance, onMounted,} from 'vue'
+import {ref, reactive, getCurrentInstance, onMounted, onBeforeMount,} from 'vue'
 import {ElMessageBox, ElMessage} from 'element-plus';
 import {useStore} from "vuex";
 import {UserLogout} from '../../../request/api/common.js'
@@ -38,16 +39,18 @@ export default {
     const {proxy} = getCurrentInstance();
     const store = useStore();
     /*顶部个人信息*/
-    const Info = reactive({
-      id: '',
-      username: '',
-      avatar: ''
+    let state = reactive({
+      info:{},
+      show:false
     })
     /*获取个人信息*/
     const getInfo = () => {
+
           getOneUserInfo().then((res) => {
-        proxy.Info = res.data.data;
-      })
+              state.info = res.data.data
+              state.show = true
+            console.log('获取个人信息',state.info);
+          })
     }
 
     /*退出登录*/
@@ -60,18 +63,25 @@ export default {
       })
     }
 
-    onMounted(
-        () => {
-          getInfo();
-          proxy.$forceUpdate();
-        }
-    )
-    return {Info, getInfo, logout}
+    // onMounted(
+    //     () => {
+    //       getInfo();
+    //       proxy.$forceUpdate();
+    //     }
+    // )
+    onBeforeMount(()=>{
+      getInfo();
+    })
+    return {state, getInfo, logout}
   },
 
 }
 </script>
 
 <style scoped>
-
+.header-avatar{
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
 </style>

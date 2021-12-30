@@ -13,7 +13,7 @@ export const menus={
         editableTabsValue:'system:menu',
         editableTabs:[{
             title:'首页',
-            name:'system:menu',
+            name:'welcome',
         }]
     },
     //方法属性
@@ -32,7 +32,7 @@ export const menus={
         },
 
         addTab(state,tab){
-
+            console.log(tab)
             /*查找标签里有没相同的元素*/
             let index = state.editableTabs.findIndex(e => e.name ===tab.name)
             /*如果没有相同的元素，再创建新标签*/
@@ -49,10 +49,10 @@ export const menus={
             state.menuList = [];
             state.permList = [];
             state.hasRoutes = false;
-            state.editableTabsValue='system:menu';
+            state.editableTabsValue='welcome';
             state.editables = [{
                 title:'首页',
-                name:'system:menu',
+                name:'welcome',
             }]
 
         }

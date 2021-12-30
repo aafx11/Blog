@@ -29,7 +29,7 @@ export default {
       let tabs = proxy.editableTabs;
       let activeName = proxy.editableTabsValue;
       /*首页不能删除*/
-      if(targetName ==='sys:menu'){
+      if(targetName ==='welcome'){
         return
       }
 
@@ -80,8 +80,9 @@ export default {
     }
 
     const clickTab = (target)=>{
-      console.log("name",target.props.name);
-      router.push({name:target.props.name})
+      console.log("name",target.props);
+
+      router.push({name:target.props.name,query:{title:target.props.label}})
     }
 
     const editableTabsValue=computed({

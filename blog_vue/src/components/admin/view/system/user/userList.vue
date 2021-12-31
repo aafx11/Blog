@@ -1,24 +1,31 @@
 <template>
   <!--搜索框-->
-  <el-form :inline="true" :model="searchForm" @submit.native.prevent>
+  <el-form :inline="true" :model="searchForm" @submit.native.prevent class="top-container">
     <el-form-item>
       <el-input v-model="searchForm.username" placeholder="名称" clearable></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button @click="getUserList">搜索</el-button>
-      <el-button type="primary" @click="dialogFormVisible = true" >添加</el-button>
+      <!--      <el-button @click="getUserList">搜索</el-button>-->
+      <my-button @click="getUserList">搜索</my-button>
+    </el-form-item>
+    <!--      <el-button type="primary" @click="dialogFormVisible = true" >添加</el-button>-->
+    <el-form-item>
+      <my-button type="primary" @click="dialogFormVisible = true">添加</my-button>
+    </el-form-item>
+    <el-form-item>
       <el-popconfirm
           title="确定删除吗？"
           @confirm="deleteHandle(null)"
 
       >
         <template #reference>
-          <el-button type="danger">批量删除</el-button>
+          <my-button type="danger" :disabled="delBtnState">批量删除</my-button>
         </template>
       </el-popconfirm>
     </el-form-item>
   </el-form>
 
+  <!--  <el-button type="danger">批量删除</el-button>-->
 
   <!--用户信息列表-->
   <el-table ref="multipleTable" border stripe :data="tableData" tooltip-effect="dark" style="width: 100%"
@@ -48,15 +55,18 @@
       </template>
     </el-table-column>
     <el-table-column prop="created" label="创建时间" width="200"></el-table-column>
-    <el-table-column width="300px" label="操作">
+    <el-table-column width="320px" label="操作" fixed="right">
       <template #default="scope">
-        <el-button type="text" @click="roleAssignment(scope.row.id)" >分配角色</el-button>
+        <!--        <el-button type="text" @click="roleAssignment(scope.row.id)">分配角色</el-button>-->
+        <my-button type="primary" size="mini" @click="roleAssignment(scope.row.id)">分配角色</my-button>
         <el-divider direction="vertical"></el-divider>
-        <el-button type="text" @click="resetPasswd(scope.row.id, scope.row.username)">
-          重置密码
-        </el-button>
+        <!--        <el-button type="text" @click="edit(scope.row.id)">编辑</el-button>-->
+        <my-button type="primary" size="mini" letter-spacing @click="edit(scope.row.id)">编辑</my-button>
         <el-divider direction="vertical"></el-divider>
-        <el-button type="text" @click="edit(scope.row.id)">编辑</el-button>
+        <!--        <el-button type="text" @click="resetPasswd(scope.row.id, scope.row.username)">-->
+        <!--          重置密码-->
+        <!--        </el-button>-->
+        <my-button type="success" size="mini" @click="resetPasswd(scope.row.id, scope.row.username)">重置密码</my-button>
         <el-divider direction="vertical"></el-divider>
         <el-popconfirm
             title="确定删除吗？"
@@ -64,19 +74,21 @@
 
         >
           <template #reference>
-            <el-button type="danger">删除</el-button>
+            <my-button type="danger" size="mini" letter-spacing>删除</my-button>
           </template>
         </el-popconfirm>
       </template>
     </el-table-column>
   </el-table>
+  <!--  <el-button type="danger">删除</el-button>-->
 
 
   <!--分页-->
-  <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="current"
-                 :page-sizes="[10, 20, 50, 100]" :page-size="size" layout="total, sizes, prev, pager, next, jumper"
-                 :total="total"></el-pagination>
-
+  <div class="bottom-container">
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="current"
+                   :page-sizes="[10, 20, 50, 100]" :page-size="size" layout="total, sizes, prev, pager, next, jumper"
+                   :total="total"></el-pagination>
+  </div>
   <!--新增用户对话框-->
   <el-dialog
       title="用户信息"
@@ -138,6 +150,7 @@
 <script>
 import {ref, reactive, getCurrentInstance, onMounted} from 'vue'
 import {ElMessageBox, ElMessage} from 'element-plus';
+import myButton from '../../../../../view/myButton.vue'
 import {
   getRoleById,
   updateOrSave,
@@ -153,6 +166,9 @@ import service from "../../../../../request/http";
 
 export default {
   name: "userList",
+  components: {
+    myButton: myButton
+  },
   data() {
     return {
       editForm: {},
@@ -371,16 +387,35 @@ export default {
 </script>
 
 <style scoped>
-.tableHeader{
+.tableHeader {
   padding: 0px;
   line-height: 15px;
-  height: 100px!important;
+  height: 100px !important;
 }
-/deep/.el-main {
-  background-color: #e9eef3!important;
-  padding: 0!important;
+
+/deep/ .el-main {
+  background-color: #e9eef3 !important;
+  padding: 0 !important;
   color: #333;
   /* text-align: center; */
   line-height: 20px !important;
+}
+
+.top-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 15px 10px 0 10px;
+}
+
+.control-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.bottom-container{
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 0;
 }
 </style>

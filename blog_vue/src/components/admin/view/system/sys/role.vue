@@ -1,6 +1,6 @@
 <template>
   <!--搜索，添加，删除-->
-  <el-form :inline="true" @submit.native.prevent>
+  <el-form :inline="true" @submit.native.prevent class="top-container">
     <el-form-item>
       <el-input
           v-model="searchForm.roleName"
@@ -10,10 +10,11 @@
       </el-input>
     </el-form-item>
     <el-form-item>
-      <el-button @click="getRoleList">搜索</el-button>
+      <my-button @click="getRoleList">搜索</my-button>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="dialogVisible = true">添加角色</el-button>
+      <!--      <el-button type="primary" @click="dialogVisible = true">添加角色</el-button>-->
+      <my-button type="primary" @click="dialogVisible = true">添加角色</my-button>
     </el-form-item>
     <el-form-item>
       <el-popconfirm
@@ -21,11 +22,13 @@
           @confirm="deleteHandle(null)"
       >
         <template #reference>
-          <el-button type="danger" :disabled="btnState">批量删除</el-button>
+          <my-button type="danger" :disabled="btnState">批量删除</my-button>
         </template>
       </el-popconfirm>
     </el-form-item>
   </el-form>
+
+  <!--  <el-button type="danger" :disabled="btnState">批量删除</el-button>-->
 
   <!--角色管理表单信息-->
   <el-table
@@ -45,25 +48,30 @@
         <el-tag v-else-if="scope.row.state === 1" size="small" type="success">正常</el-tag>
       </template>
     </el-table-column>
-    <el-table-column label="操作" width="220">
+    <el-table-column label="操作" width="250" fixed="right">
       <template #default="scope">
-        <el-button type="text" @click="permHandle(scope.row.id)" >分配权限</el-button>
-        <el-divider direction="vertical"></el-divider>
-        <el-button type="text" @click="editHandle(scope.row.id)" >编辑</el-button>
-        <el-divider direction="vertical"></el-divider>
+        <div class="control-container">
+        <!--        <el-button type="text" @click="permHandle(scope.row.id)">分配权限</el-button>-->
+        <my-button type="primary" size="mini" @click="permHandle(scope.row.id)">分配权限</my-button>
+
+<!--        <el-divider direction="vertical"></el-divider>-->
+        <!--        <el-button type="text" @click="editHandle(scope.row.id)">编辑</el-button>-->
+        <my-button type="primary" size="mini" @click="editHandle(scope.row.id)" letter-spacing>编辑</my-button>
+<!--        <el-divider direction="vertical"></el-divider>-->
         <el-popconfirm
             title="确定删除吗？"
             @confirm="deleteHandle(scope.row.id)"
 
         >
           <template #reference>
-            <el-button type="danger">删除</el-button>
+            <my-button type="danger" size="mini" letter-spacing>删除</my-button>
           </template>
         </el-popconfirm>
+        </div>
       </template>
     </el-table-column>
   </el-table>
-
+  <!--  <el-button type="danger">删除</el-button>-->
   <!--分页-->
   <el-pagination
       @size-change="handleSizeChange"
@@ -137,6 +145,7 @@
 <script>
 import {ref, reactive, getCurrentInstance, onMounted} from 'vue'
 import {useStore} from "vuex";
+import myButton from '../../../../../view/myButton.vue'
 import {ElMessageBox, ElMessage} from 'element-plus';
 import {updateOrSave, getRoleInfoById, roleList, deleteById} from '../../../../../request/api/role.js'
 import {MenuList} from '../../../../../request/api/menu.js'
@@ -144,6 +153,9 @@ import service from "../../../../../request/http.js";
 
 export default {
   name: "role",
+  components: {
+    myButton: myButton
+  },
   data() {
     return {
       editForm: {},
@@ -363,5 +375,18 @@ export default {
 <style scoped>
 .el-pagination {
   float: right;
+}
+
+/*顶部操作栏*/
+.top-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 15px 10px 0 10px;
+}
+.control-container{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 </style>

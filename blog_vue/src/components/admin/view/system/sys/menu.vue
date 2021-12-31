@@ -1,11 +1,14 @@
 <template>
   <div>
     <!--添加菜单按钮-->
-    <el-form :inline="true">
-      <el-form-item>
-        <el-button type="primary" @click="dialogVisible = true">添加菜单</el-button>
-      </el-form-item>
-    </el-form>
+    <!--    <el-form :inline="true">-->
+    <!--      <el-form-item>-->
+    <!--        <el-button color="#626aef" @click="dialogVisible = true">添加菜单</el-button>-->
+    <!--      </el-form-item>-->
+    <!--    </el-form>-->
+    <div class="top-container">
+      <my-button type="primary" @click="dialogVisible = true">添加菜单</my-button>
+    </div>
 
     <!--菜单信息表格-->
     <el-table
@@ -61,25 +64,30 @@
           <el-tag size="small" v-if="scope.row.state === 0">禁用</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" fixed="right" width="150">
         <template #default="scope">
-          <el-tooltip class="item" effect="dark" content="编辑" placement="top" enterable>
-            <el-button type="warning" icon="el-icon-edit" @click="editHandle(scope.row.id)"></el-button>
-          </el-tooltip>
-          <!--删除按钮-->
-          <el-popconfirm
-              title="确定删除吗？"
-              @confirm="deleteHandle(scope.row.id)"
-              v-if="isAuth('menu:delete')"
-          >
-            <template #reference>
-              <el-button type="danger" >删除</el-button>
-            </template>
-          </el-popconfirm>
+          <!--          <el-tooltip class="item" effect="dark" content="编辑" placement="top" enterable>-->
+          <!--            <el-button type="warning" icon="el-icon-edit" @click="editHandle(scope.row.id)"></el-button>-->
+          <!--          </el-tooltip>-->
+          <div class="button-container">
+            <my-button type="primary" size="mini" @click="editHandle(scope.row.id)">编辑</my-button>
+            <!--删除按钮-->
+            <el-popconfirm
+                title="确定删除吗？"
+                @confirm="deleteHandle(scope.row.id)"
+                v-if="isAuth('menu:delete')"
+            >
+              <template #reference>
+                <my-button type="danger" size="mini">删除</my-button>
+              </template>
+            </el-popconfirm>
+
+          </div>
         </template>
       </el-table-column>
     </el-table>
   </div>
+  <!--  <el-button size="mini" class="delete-button" auto-insert-space="true">删除</el-button>-->
 
 
   <!--添加和编辑菜单表格弹窗-->
@@ -155,8 +163,13 @@ import {ref, reactive, getCurrentInstance, onMounted, onBeforeMount, computed, i
 import {ElMessageBox, ElMessage} from 'element-plus';
 import {MenuList, getMenuById, deleteById, updateOrSave} from '../../../../../request/api/menu.js'
 import {hasAuth} from '../../../../../assets/js/global.js'
+import myButton from '../../../../../view/myButton.vue'
+
 export default {
   name: "menuManagement",
+  components: {
+    myButton: myButton
+  },
   data() {
     return {
       editFormRules: {
@@ -210,9 +223,9 @@ export default {
     const getMenuList = () => {
       MenuList().then(res => {
         proxy.tableData = res.data.data
-        proxy.tableData.push({id:0});
+        proxy.tableData.push({id: 0});
 
-        console.log("菜单信息",proxy.tableData);
+        console.log("菜单信息", proxy.tableData);
         proxy.$forceUpdate();
         tableDisable.value = true
       })
@@ -276,5 +289,14 @@ export default {
 </script>
 
 <style scoped>
+/*添加菜单按钮*/
+.top-container {
+  height: 64px;
+  padding: 16px 16px;
+}
+.button-container{
+  display: flex;
+  justify-content: space-around;
+}
 
 </style>

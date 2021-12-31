@@ -56,11 +56,14 @@ export default {
   flex: 1;
 }
 
+
 .main-container {
-  background-color: hotpink;
-  /*width: 100px;*/
+  background-color:var(--color) ;
+  width: 100px;
   /*min-width: 2000px;*/
   height: 100px;
   z-index: 100;
 }
+
+
 </style>

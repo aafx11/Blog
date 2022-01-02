@@ -8,16 +8,18 @@
       </div>
 
       <div class="search-box">
-        <a-input v-model:value="searchForm" placeholder="请输入相关的内容" class="search-input">
-          <template #prefix>
-            <SearchOutlined/>
-          </template>
-        </a-input>
+<!--        <a-input v-model:value="searchForm" placeholder="请输入相关的内容" class="search-input">-->
+<!--          <template #prefix>-->
+<!--            <SearchOutlined/>-->
+<!--          </template>-->
+<!--        </a-input>-->
+        <my-selector @searchOptions="searchOptions" @setItemValue="setItemValue" class="search" placeholder="请输入相关的内容"></my-selector>
       </div>
       <div class="search-button">
-        <a-button @click="pushSearchPage()">
-          搜索
-        </a-button>
+<!--        <a-button @click="pushSearchPage()">-->
+<!--          搜索-->
+<!--        </a-button>-->
+        <my-button @click="pushSearchPage()">搜索</my-button>
       </div>
     </div>
     <div class="header-right">
@@ -157,10 +159,12 @@ import {
 } from '@ant-design/icons-vue';
 import {message} from "ant-design-vue";
 import {useRouter} from "vue-router";
+import MyButton from "../../../view/myButton.vue";
 
 export default defineComponent({
   name: "home_Nav",
   components: {
+    MyButton,
     SearchOutlined, CaretDownOutlined,
     HomeOutlined, ReadOutlined,
     FireOutlined, BarsOutlined,
@@ -328,6 +332,20 @@ export default defineComponent({
       console.log('test')
 
     }
+
+    // 输入框，输入监听
+    const searchOptions = (value)=>{
+      console.log(value);
+      searchForm.value = value
+    }
+
+    // 输入框菜单，获取选中的下拉菜单值
+    const setItemValue = (item) => {
+      console.log(item);
+      searchForm.value = item.value
+      pushSearchPage()
+    }
+
     onMounted(() => {
       getUnReadMessageCountData();
       const flag = isAuth('hasLogin');
@@ -335,6 +353,7 @@ export default defineComponent({
         getUserInfoData();
       }
     })
+
 
     return {
       flag,
@@ -349,8 +368,10 @@ export default defineComponent({
       pushIndex,
       pushLogin,
       pushTagFile,
+      setItemValue,
       pushUserPage,
       pushRegister,
+      searchOptions,
       pushSearchPage,
       pushManuscript,
       pushHotArticle,
@@ -431,9 +452,12 @@ a {
 }
 
 .search-box {
-  width: 25%;
+  width: 27%;
 }
-
+.search{
+  /*display: block;*/
+  /*width: 100%;*/
+}
 .search-input {
   border: 1px solid black;
   border-radius: 10px;

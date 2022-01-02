@@ -39,11 +39,12 @@ VMdPreview.use(githubTheme, {
     Hljs: hljs,
 });
 
-
+// 自己的组件
+import myUI from "./libs/my-ui";
 
 
 const app = createApp(App)
-app.use(router).use(store).use(ElementPlus).use(Antd).use(VMdPreview).use(VueMarkdownEditor).mount('#app')
+app.use(router).use(store).use(ElementPlus).use(Antd).use(myUI).use(VMdPreview).use(VueMarkdownEditor).mount('#app')
 
 app.config.globalProperties.$globalFun=globalFun;
 

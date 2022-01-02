@@ -1,6 +1,6 @@
 <template>
   <div class="content-box"
-       :style="{'background-image':'url('+article.cover+')','background-size':'cover',}"
+       :style="{'background-image':'url(http://localhost:8081/static/articleCover/'+article.cover+')','background-size':'cover',}"
        @mouseenter="mouse(article.id)" @mouseleave="leave(article.cover,article.id)" :data-index="article.id"
         @click="pushArticleDetail(article.id)"
   >
@@ -42,7 +42,7 @@ export default {
       const index = '\'' + id + '\'';
       let contain = document.querySelector("div[data-index=" + index + "]");
 
-      contain.style.backgroundImage="url("+cover+")";
+      contain.style.backgroundImage="url(http://localhost:8081/static/articleCover/"+cover+")";
       contain.style.backgroundSize='cover';
 
       console.log(contain.style);

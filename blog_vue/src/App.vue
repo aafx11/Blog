@@ -69,9 +69,7 @@ export default {
 
 </script>
 <style>
-:root {
-  --value: 1;
-}
+
 .outer{
   position: fixed;
   top: 0;

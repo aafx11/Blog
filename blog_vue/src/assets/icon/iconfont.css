@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2479358 */
-  src: url('iconfont.woff2?t=1633422549423') format('woff2'),
-       url('iconfont.woff?t=1633422549423') format('woff'),
-       url('iconfont.ttf?t=1633422549423') format('truetype');
+  src: url('iconfont.woff2?t=1641055837939') format('woff2'),
+       url('iconfont.woff?t=1641055837939') format('woff'),
+       url('iconfont.ttf?t=1641055837939') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,50 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-suijiyonghu:before {
+  content: "\e611";
+}
+
+.icon-icon_search:before {
+  content: "\e6aa";
+}
+
+.icon-icon_arrow_down:before {
+  content: "\e62b";
+}
+
+.icon-avatar09:before {
+  content: "\e610";
+}
+
+.icon-14:before {
+  content: "\e61b";
+}
+
+.icon-15:before {
+  content: "\e61c";
+}
+
+.icon-icon-test:before {
+  content: "\e664";
+}
+
+.icon-icon-test1:before {
+  content: "\e671";
+}
+
+.icon-icon-test2:before {
+  content: "\e672";
+}
+
+.icon-user__easyico:before {
+  content: "\e60d";
+}
+
+.icon-qiatongtouxiang:before {
+  content: "\e630";
 }
 
 .icon-yiguanzhu:before {

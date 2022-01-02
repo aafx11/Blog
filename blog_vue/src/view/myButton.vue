@@ -2,6 +2,7 @@
   <button :class="['base',type,size,
   {
     'is-disabled': disabled,
+    'is-block':isBlock,
     'auto-insert-space':letterSpacing
   }]" :disabled="disabled">
     <slot></slot>
@@ -30,6 +31,10 @@ export default {
       type: Boolean,
       default: false
     },
+    isBlock:{
+      type: Boolean,
+      default: false
+    },
     letterSpacing: {
       type: Boolean,
       default: false
@@ -51,7 +56,12 @@ export default {
   cursor: not-allowed !important;
   opacity: 0.4;
 }
-
+/*block块状态*/
+.is-block{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 /*基础样式*/
 .base {
   font-size: 14px;
@@ -108,11 +118,18 @@ export default {
   border: 1px solid rgb(237, 123, 47);
 
 }
-
+.warning:hover{
+  background: rgba(237, 123, 47,0.8);
+  border: 1px solid rgba(237, 123, 47,0.8);
+}
 .success {
   color: #fff;
   background: rgb(0, 168, 112);
   border: 1px solid rgb(0, 168, 112);
+}
+.success:hover{
+  background: rgba(0, 168, 112,0.8);
+  border: 1px solid rgba(0, 168, 112,0.8);
 }
 
 /*尺寸控制*/

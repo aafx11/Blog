@@ -1,11 +1,54 @@
 <template>
-  <!--  <div class="container">-->
-  <!--    <div class="aside-empty"></div>-->
-  <!--    <div class="aside-container">123</div>-->
-  <!--    <div class="main-container"></div>-->
-  <!--  </div>-->
-  <my-selector placeholder="测试" @setItemValue="setItemValue" @searchOptions="searchOptions" :data="data" ></my-selector>
-  <input type="text" v-model="txt">
+<!--  <my-modal-->
+
+<!--      :width=600-->
+<!--      :border-radius="10"-->
+<!--      title-background="pink"-->
+<!--      title-text="测试"-->
+<!--      title-text-color="white"-->
+<!--      border-bottom-color="#666"-->
+<!--      content-text="烧0现状"-->
+<!--      content-text-color="pink"-->
+<!--      @confirm="confirm"-->
+<!--      @close="close"-->
+<!--      :btn-group-show="true"-->
+<!--      confirm-text="是的"-->
+<!--      confirm-background="blue"-->
+<!--      cancel-text="否"-->
+<!--      cancel-background="black"-->
+<!--      position="center"-->
+<!--      :show="sho"-->
+<!--  >-->
+<!--    <template #title>-->
+<!--      <div>测试</div>-->
+<!--    </template>-->
+<!--   <template #content>-->
+<!--     <div class="test">123</div>-->
+<!--     <div class="test">123</div>-->
+<!--     <div class="test">123</div>-->
+<!--     <div class="test">123</div>-->
+
+<!--     <div class="test">123</div>-->
+<!--     <div class="test">123</div>-->
+<!--     <div class="test">123</div>-->
+
+<!--   </template>-->
+<!--    <template #bottom>-->
+
+<!--    </template>-->
+<!--  </my-modal>-->
+  <my-modal :show="sho"
+            @confirm="confirm"
+            @close="close"
+            :bottom-show="true"
+  >
+    <template #bottom>
+<!--      <div>123</div>-->
+    </template>
+  </my-modal>
+  <!--      @confirm="confirm"-->
+  <!--      @close="close"-->
+  <div class="test" @click="test">123</div>
 </template>
 
 <script>
@@ -20,48 +63,31 @@ import {
   watch,
   onBeforeMount
 } from 'vue';
-import {articleLists} from '../../request/api/article.js'
-import {getArticleData} from '../../assets/js/article.js'
+
 
 
 export default {
   name: "test",
   setup() {
-    let txt = ref()
+    let sho = ref(false)
+    const test = () =>{
+      sho.value = true
 
-    watch(()=>{
-      return txt.value
-    },()=>{
-      console.log('watch',txt.value)
-    })
-    const data = reactive([
-
-      {
-        id: 1,
-        value: 'vue123',
-        text: 'Vue'
-      },
-      {
-        id: 2,
-        value: 'ES61123',
-        text: 'ES6'
-      },
-
-    ])
-
-    const setItemValue = (value) => {
-      console.log('获取的值',value)
     }
 
-    const searchOptions = (value)=>{
-      console.log('输入',value)
-      txt.value = value
+    const confirm = () =>{
+      console.log('确认');
+    }
+
+    const close = () =>{
+      console.log('关闭');
+      sho.value = false
     }
     return {
-      txt,
-      data,
-      setItemValue,
-      searchOptions,
+      sho,
+      confirm,
+      close,
+      test
     }
   }
 
@@ -71,37 +97,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  min-height: 100vh;
-  background-color: #f0f2f5;
-  display: flex;
-}
+.test{
 
-.aside-empty {
-  width: 248px;
-  max-width: 248px;
-  height: 100vh;
-}
-
-.aside-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 248px;
-  max-width: 248px;
-  height: 100vh;
-  background-color: rgb(120, 125, 222);
-  flex: 1;
-}
-
-
-.main-container {
-
-  width: 100px;
-  /*min-width: 2000px;*/
   height: 100px;
-  z-index: 100;
+  //background-color: black;
 }
-
 
 </style>

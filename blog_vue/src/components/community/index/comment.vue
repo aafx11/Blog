@@ -34,6 +34,17 @@
       <login-form></login-form>
     </a-modal>
 
+<!--  <a-modal v-model:visible="visible">-->
+<!--    <p>Some contents...</p>-->
+<!--    <p>Some contents...</p>-->
+<!--    <p>Some contents...</p>-->
+<!--  </a-modal>-->
+<!--      <my-modal :show="visible" title-text="">-->
+<!--        <template #content>-->
+<!--          <login-form></login-form>-->
+<!--        </template>-->
+<!--      </my-modal>-->
+
 </template>
 
 <script>

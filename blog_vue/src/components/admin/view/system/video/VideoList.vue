@@ -1,6 +1,6 @@
 <template>
   <!--搜索框,筛选,批量删除-->
-  <el-form :inline="true" :model="searchForm" @submit.native.prevent>
+  <el-form :inline="true" :model="searchForm" @submit.native.prevent class="top-container">
     <el-form-item>
       <el-input v-model="searchForm.searchContent" placeholder="请输入视频相关信息" clearable></el-input>
     </el-form-item>
@@ -11,15 +11,21 @@
 
       >
         <template #reference>
-          <el-button type="danger" :disabled="delBtnState">批量删除</el-button>
+          <my-button type="danger" :disabled="delBtnState">批量删除</my-button>
         </template>
       </el-popconfirm>
     </el-form-item>
+    <!--    <el-button type="danger" :disabled="delBtnState">批量删除</el-button>-->
+
     <el-form-item>
       <el-dropdown>
-        <el-button type="primary">
-          筛选<i class="el-icon-arrow-down el-icon--right"></i>
-        </el-button>
+        <!--        <el-button type="primary">-->
+        <!--          筛选<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+        <!--        </el-button>-->
+        <my-button type="primary">
+          筛选
+          <i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>
+        </my-button>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item @click="tab='all'">全部</el-dropdown-item>
@@ -79,7 +85,8 @@
     <el-table-column label="视频内容" width="150">
       <template #default="scope">
         <router-link :to="{name:'videoDetail',params:{id:scope.row.id}}" target="_blank">
-          <el-button type="primary" size="small">点击进入视频页</el-button>
+          <!--          <el-button type="primary" size="small">点击进入视频页</el-button>-->
+          <my-button type="primary" size="mini">点击进入视频页</my-button>
         </router-link>
       </template>
     </el-table-column>
@@ -126,19 +133,24 @@
       <template #default="scope">
         <div class="edit-box">
           <router-link :to="{name:'editVideo',params:{id:scope.row.id}}" class="edit-button">
-            <div>
-              <EditOutlined/>
+            <!--            <div>-->
+            <!--              <EditOutlined/>-->
+            <!--              编辑-->
+            <!--            </div>-->
+            <my-button type="primary">
               编辑
-            </div>
+              <EditOutlined/>
+            </my-button>
           </router-link>
           <el-popconfirm
               title="确定删除吗" @confirm="deleteHandle(scope.row.id)"
           >
             <template #reference>
-              <div class="delete-button">
-                <DeleteOutlined/>
+
+              <my-button type="danger">
                 删除
-              </div>
+                <DeleteOutlined/>
+              </my-button>
             </template>
           </el-popconfirm>
         </div>
@@ -146,21 +158,30 @@
     </el-table-column>
   </el-table>
 
+  <!--              <div class="delete-button">-->
+  <!--                <DeleteOutlined/>-->
+  <!--                删除-->
+  <!--              </div>-->
+
   <!--分页-->
-  <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="current"
-                 :page-sizes="[10, 20, 50, 100]" :page-size="size" layout="total, sizes, prev, pager, next, jumper"
-                 :total="total"></el-pagination>
+  <div class="bottom-container">
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="current"
+                   :page-sizes="[10, 20, 50, 100]" :page-size="size" layout="total, sizes, prev, pager, next, jumper"
+                   :total="total"></el-pagination>
+  </div>
 </template>
 
 <script>
 import {getCurrentInstance, onMounted, reactive, ref, watch} from "vue";
 import {getVideoByStateOrLike, deleteVideoByVideoId} from '../../../../../request/api/video.js'
 import {ElMessageBox, ElMessage} from 'element-plus';
+import myButton from "../../../../../view/myButton.vue";
 import {HourglassOutlined, ExclamationCircleOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons-vue';
 
 export default {
   name: "VideoList",
   components: {
+    myButton,
     HourglassOutlined,
     ExclamationCircleOutlined,
     EditOutlined,
@@ -316,9 +337,14 @@ export default {
 
 }
 
+.edit-box {
+  display: flex;
+  justify-content: space-around;
+}
+
 .edit-button, .edit-button + div {
   display: inline-block;
-  padding: 5px 15px;
+  /*padding: 5px 15px;*/
   border: 1px solid rgb(231, 231, 231);
   border-radius: 5px;
 }
@@ -339,5 +365,18 @@ export default {
 
 a {
   color: black;
+}
+
+.top-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 15px 10px 0 10px;
+}
+
+.bottom-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 10px;
 }
 </style>

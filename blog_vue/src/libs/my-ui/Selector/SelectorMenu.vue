@@ -1,23 +1,28 @@
 <template>
   <div class="selector-menu">
-    <div
-        class="menu-item"
-        v-for="(item,index) of searchData"
-        :key="index"
-        @click="setItemValue(item)"
-    >
-      {{ item.text }}
-    </div>
+    <template v-if="searchData.length > 0">
+      <div
+          class="menu-item"
+          v-for="(item,index) of searchData"
+          :key="index"
+          @click="setItemValue(item)"
+      >
+        {{ item.text }}
+      </div>
+    </template>
+    <no-data-tip v-else></no-data-tip>
   </div>
 </template>
 
 <script>
 import {onMounted, ref, watch} from "vue";
-
-
+import NoDataTip from './NoDataTip.vue'
 
 export default {
   name: "SelectorMenu",
+  components:{
+    NoDataTip
+  },
   props: {
     searchValue: String,
     data: {
@@ -63,7 +68,7 @@ export default {
 
     // 从可选菜单中过滤出和当前输入的值匹配的数据
     const filterData = (value) => {
-      searchData.value = props.data.filter((item)=>{
+      searchData.value = props.data.filter((item) => {
         return item.text.toLowerCase().includes(props.searchValue.toLowerCase())
       })
     }
@@ -71,6 +76,7 @@ export default {
     const setItemValue = (item) => {
       ctx.emit('setItemValue', item)
     }
+
 
     return {
       searchData,

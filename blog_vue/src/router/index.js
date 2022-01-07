@@ -81,43 +81,43 @@ const router = createRouter({
                     path: '/videoPage',
                     name: 'videoPage',
                     component: () => import('../components/community/video/videoPage.vue'),
-                    redirect:'/recommendedVideo',
+                    redirect: '/recommendedVideo',
                     meta: {requireAuth: true},
-                    children:[
+                    children: [
                         {
                             path: '/videoUpload',
                             name: 'videoUpload',
-                            component:() => import('../components/community/video/videoUpload.vue')
+                            component: () => import('../components/community/video/videoUpload.vue')
                         },
                         {
                             path: '/manuscript',
                             name: 'manuscript',
-                            component:() => import('../components/community/video/Manuscript.vue')
+                            component: () => import('../components/community/video/Manuscript.vue')
                         },
                         {
                             path: '/editVideo/:id',
                             name: 'editVideo',
-                            component:() => import('../components/community/video/EdieVideo.vue')
+                            component: () => import('../components/community/video/EdieVideo.vue')
                         },
                         {
                             path: '/recommendedVideo',
                             name: 'recommendedVideo',
-                            component:() => import('../components/community/video/RecommendedVideo.vue')
+                            component: () => import('../components/community/video/RecommendedVideo.vue')
                         },
                         {
                             path: '/videoFollow',
                             name: 'videoFollow',
-                            component:() => import('../components/community/video/VideoFollow.vue')
+                            component: () => import('../components/community/video/VideoFollow.vue')
                         },
                         {
                             path: '/hotVideoPage',
                             name: 'hotVideoPage',
-                            component:() =>import('../components/community/video/HotVideoPage.vue')
+                            component: () => import('../components/community/video/HotVideoPage.vue')
                         },
                         {
                             path: '/videoTagsPage/:id/:name',
                             name: 'videoTagsPage',
-                            component:() =>import('../components/community/video/VideoTagsPage.vue')
+                            component: () => import('../components/community/video/VideoTagsPage.vue')
                         }
 
                     ]
@@ -125,7 +125,7 @@ const router = createRouter({
                 {
                     path: '/videoDetail/:id',
                     name: 'videoDetail',
-                    component:() => import('../components/community/video/VideoDetail.vue')
+                    component: () => import('../components/community/video/VideoDetail.vue')
                 },
                 {
                     path: '/searchPage/:content',
@@ -195,7 +195,7 @@ const router = createRouter({
                     name: 'userInfo',
                     component: () => import('../components/community/personalCenter/UserInfo.vue'),
                     meta: {requireAuth: true},
-                    children:[
+                    children: [
                         {
                             path: '/userInfo/article',
                             name: 'articleList',
@@ -236,7 +236,18 @@ const router = createRouter({
             path: "/test",
             name: "test",
             component: () => import('../components/test/test.vue'),
-
+            children: [
+                {
+                    path: "/test/test1",
+                    name: "test1",
+                    component: () => import('../components/test/parent.vue')
+                },
+                {
+                    path: "/test/test2",
+                    name: "test2",
+                    component: () => import('../components/test/test2.vue')
+                },
+            ]
 
         },
     ],

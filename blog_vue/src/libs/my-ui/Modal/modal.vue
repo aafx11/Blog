@@ -1,85 +1,82 @@
 <template>
-  <div
-      class="modal-mask"
-      v-show="show"
-  >
+  <transition name="modal">
     <div
-        class="my-modal"
-        ref="myModal"
-        :style="{
-          width:width + 'px',
-          borderRadius: borderRadius + 'px',
-          marginLeft: - width / 2 + 'px',
-          top: position ==='center' ? '50%' : '50px',
-          marginTop: position === 'center' ? - myModalHeight / 2 + 'px' : ''
-        }"
+        class="modal-mask"
+        v-show="show"
+        @click.self="close"
     >
-      <header
-          class="header"
-          :style="{
+      <div
+          class="my-modal"
+          ref="myModal"
+          :style="modalStyle"
+      >
+        <header
+            class="header"
+            :style="{
             backgroundColor:titleBackground,
             borderBottom:`1px solid ${borderBottomColor}`
 
           }"
-      >
-        <slot name="title">
-          <h1
-              :style="{
+        >
+          <slot name="title">
+            <h1
+                :style="{
               color:titleTextColor
             }">{{ titleText }}</h1>
-        </slot>
-        <a
-            href="javascript:;"
-            :style="{
+          </slot>
+          <a
+              href="javascript:;"
+              :style="{
               color: titleTextColor
             }"
-            @click="close"
-        >&times;</a>
-      </header>
-      <article
-          class="content"
-          :style="{
+              @click="close"
+          >&times;</a>
+        </header>
+        <article
+            class="content"
+            :style="{
              borderBottom: bottomShow ? `1px solid ${borderBottomColor}` : ''
           }"
-      >
-        <slot name="content">
-          <p
-              :style="{
+        >
+          <slot name="content">
+            <p
+                :style="{
               color:contentTextColor,
           }"
-          >{{ contentText }}</p>
-        </slot>
-      </article>
-      <div
-          class="btn-group"
-          v-if="bottomShow"
-      >
-        <slot name="bottom">
-          <button
-              class="btn btn-confirm"
-              :style="{
+            >{{ contentText }}</p>
+          </slot>
+        </article>
+        <div
+            class="btn-group"
+            v-if="bottomShow"
+        >
+          <slot name="bottom">
+            <button
+                class="btn btn-confirm"
+                :style="{
               backgroundColor: confirmBackground
             }"
-              @click="confirm"
-          >{{ confirmText }}
-          </button>
-          <button
-              class="btn btn-cancel"
-              :style="{
+                @click="confirm"
+            >{{ confirmText }}
+            </button>
+            <button
+                class="btn btn-cancel"
+                :style="{
               backgroundColor: cancelBackground
             }"
-              @click="close"
-          >{{ cancelText }}
-          </button>
-        </slot>
+                @click="close"
+            >{{ cancelText }}
+            </button>
+          </slot>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
 
-import {onMounted, onUpdated, reactive, ref, toRefs, watch} from 'vue'
+import {computed, onMounted, onUpdated, reactive, ref, toRefs, watch} from 'vue'
 /*
 *  show:是否展示模态框，
 *  bottomShow：是否展示底部按钮
@@ -157,7 +154,7 @@ export default {
 
   },
   setup(props, ctx) {
-
+    let {borderRadius, width, position} = toRefs(props)
     const myModal = ref(null);
 
     const state = reactive({
@@ -165,14 +162,21 @@ export default {
       modalShow: props.show
     })
 
-    // onMounted(() => {
-    //   state.myModalHeight = myModal.value.offsetHeight;
-    //   console.log('高度',state.myModalHeight);
-    // })
 
     onUpdated(() => {
       state.myModalHeight = myModal.value.offsetHeight;
+      console.log(modalStyle.value);
+      console.log(width);
+    })
 
+    const modalStyle = computed(() => {
+      return {
+        width: width.value + 'px',
+        borderRadius: borderRadius.value + 'px',
+        marginLeft: -width.value / 2 + 'px',
+        top: position.value === 'center' ? '50%' : '50px',
+        marginTop: position.value === 'center' ? -state.myModalHeight / 2 + 'px' : ''
+      }
     })
 
     // 确认事件回调
@@ -191,6 +195,7 @@ export default {
 
 
     return {
+      modalStyle,
       myModal,
       ...toRefs(state),
       confirm,
@@ -201,6 +206,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// scoped会为当前组件的模板中每一个元素都添加一个随机的属性
+// scoped会给当前组件的所有样式 也添加一个对应的属性选择器
+
+//深度选择器 scss ::v-deep  less /deep/  css >>>
 .modal-mask {
   position: fixed;
   top: 0;
@@ -289,4 +298,31 @@ export default {
     }
   }
 }
+
+// 离开进入动画效果
+.modal-enter-active {
+  animation: fade .3s;
+}
+
+.modal-leave-active {
+  animation: fade .3s reverse;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
 </style>
+<!--      :style="{-->
+<!--      width:width + 'px',-->
+<!--      borderRadius: borderRadius + 'px',-->
+<!--      marginLeft: - width / 2 + 'px',-->
+<!--      top: position ==='center' ? '50%' : '50px',-->
+<!--      marginTop: position === 'center' ? - myModalHeight / 2 + 'px' : ''-->
+<!--      }"-->

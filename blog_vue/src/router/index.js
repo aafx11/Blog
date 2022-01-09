@@ -247,6 +247,16 @@ const router = createRouter({
                     name: "test2",
                     component: () => import('../components/test/test2.vue')
                 },
+                {
+                    path: "/test/test3",
+                    name: "test3",
+                    component: () => import('../components/test/test3.vue')
+                },
+                {
+                    path: "/test/test4",
+                    name: "test4",
+                    component: () => import('../components/test/test4.vue')
+                },
             ]
 
         },

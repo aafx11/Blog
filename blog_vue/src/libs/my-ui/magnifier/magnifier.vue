@@ -85,7 +85,8 @@ export default {
     return {
       img_wrapper_style,
       mag_wrapper_style,
-      mag_img_style
+      mag_img_style,
+
     }
   }
 }

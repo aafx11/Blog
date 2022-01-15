@@ -71,6 +71,7 @@ export default {
   height: 100%;
   /*border: 1px solid black;*/
   padding: 15px 10px;
+
 }
 .item-box{
   padding: 0px 5px;

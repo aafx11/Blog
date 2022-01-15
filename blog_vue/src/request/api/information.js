@@ -37,6 +37,14 @@ export const getCommentList=(articleId) => {
     })
 }
 
+//获取最新评论
+export const getLatestComments=() => {
+    return service({
+        url:"/commentform/getLatestComments",
+        method:'get',
+    })
+}
+
 //提交文章评论
 export const submitComment=(data) => {
     return service({

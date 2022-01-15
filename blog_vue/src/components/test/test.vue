@@ -9,9 +9,11 @@
       :magWidth="magWidth"
       :magHeight="magHeight"
       imgAlt="测试"
+      ref="test"
     >
 
     </my-magnifier>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -26,7 +28,8 @@ import {
   ref,
   watch,
   onBeforeMount,
-    nextTick
+    nextTick,
+    getTransitionRawChildren
 } from 'vue';
 
 
@@ -43,8 +46,12 @@ export default {
       magHeight:100
     })
 
+
+    let test = ref(null)
+    console.log(test);
     return {
-      ...toRefs(state)
+      ...toRefs(state),
+      test
     }
   }
 

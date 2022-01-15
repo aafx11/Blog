@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-box">
     <span>账号信息设置</span>
     <div>
       <a-avatar
@@ -303,6 +303,12 @@ export default {
 </script>
 
 <style scoped>
+
+.container-box{
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
 /*表单*/
 .form {
   height: 60px;

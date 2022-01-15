@@ -1,5 +1,6 @@
 <template>
-  <div class="app-container">
+  <div>123</div>
+    <div class="app-container">
     <div class="app-header">
       <div class="app-header-left">
         <span class="app-icon"></span>
@@ -563,26 +564,26 @@
 </template>
 
 <script>
-// import test from './test.vue'
-// import {computed, defineComponent, getCurrentInstance, onMounted, reactive, ref, watch, onBeforeMount} from 'vue';
-// import {getUserProfileVOById} from '../../request/api/userList.js'
-// import {getUserDataById} from '../../assets/js/user.js'
-// import {useStore} from "vuex";
-//
-//
-// export default {
-//   name: "parent",
-//   components: {
-//     test: test
-//   },
-//   setup() {
-//     onBeforeMount(()=>{
-//
-//     })
-//   },
-//   methods: {},
-//
-// }
+
+import {computed, defineComponent, getCurrentInstance, onMounted, reactive, ref, watch, onBeforeMount} from 'vue';
+import {getUserProfileVOById} from '../../request/api/userList.js'
+import {getUserDataById} from '../../assets/js/user.js'
+import {useStore} from "vuex";
+
+
+export default {
+  name: "parent",
+  components: {
+    // test: test
+  },
+  setup() {
+    onBeforeMount(()=>{
+
+    })
+  },
+  methods: {},
+
+}
 document.addEventListener('DOMContentLoaded', function () {
   var modeSwitch = document.querySelector('.mode-switch');
 

@@ -3,14 +3,17 @@
   <a-list item-layout="horizontal" :data-source="articleList">
     <template #renderItem="{ item ,index}">
       <a-list-item>
-        <a-list-item-meta :description="item.content">
+        <a-list-item-meta :description="item.introduction">
           <template #title>
             <router-link :to="{name:'articleDetail',params:{id:item.id}}">{{ item.title }}</router-link>
+<!--            <router-link :to="{name:'articleDetail',params:{id:item.id}}">{{ item.introduction }}</router-link>-->
+
           </template>
         </a-list-item-meta>
       </a-list-item>
     </template>
   </a-list>
+  <div class="bottom">
   <a-pagination
       show-size-changer
       v-model:current="current"
@@ -19,6 +22,7 @@
       @showSizeChange="onShowSizeChange"
 
   />
+  </div>
 </template>
 
 <script>
@@ -97,5 +101,14 @@ export default {
 </script>
 
 <style scoped>
-
+.bottom{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.ant-list-item{
+  padding: 12px 10px!important;
+  border: 1px solid black!important;
+  z-index: 100;
+}
 </style>

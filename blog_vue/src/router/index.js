@@ -34,11 +34,18 @@ const router = createRouter({
             path: '/',
             redirect: '/index'
         },
+        // {
+        //     path: '/login',
+        //     name: 'login',
+        //     // component: () => import('../components/admin/view/login/login.vue'),
+        //     component: () => import('../components/community/common/loginPage.vue'),
+        //     meta: {requireAuth: true}
+        // },
         {
             path: '/login',
             name: 'login',
             // component: () => import('../components/admin/view/login/login.vue'),
-            component: () => import('../components/community/common/loginPage.vue'),
+            component: () => import('../components/community/common/login.vue'),
             meta: {requireAuth: true}
         },
         {

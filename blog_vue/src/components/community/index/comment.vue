@@ -25,25 +25,25 @@
 
     </commentList>
 
-    <a-modal
-        v-model:visible="visible"
-        :centered="true"
-        width="460px"
-        :body-style="{padding:'0'}"
-    >
-      <login-form></login-form>
-    </a-modal>
+<!--    <a-modal-->
+<!--        v-model:visible="visible"-->
+<!--        :centered="true"-->
+<!--        width="460px"-->
+<!--        :body-style="{padding:'0'}"-->
+<!--    >-->
+<!--      <login-form></login-form>-->
+<!--    </a-modal>-->
 
 <!--  <a-modal v-model:visible="visible">-->
 <!--    <p>Some contents...</p>-->
 <!--    <p>Some contents...</p>-->
 <!--    <p>Some contents...</p>-->
 <!--  </a-modal>-->
-<!--      <my-modal :show="visible" title-text="">-->
-<!--        <template #content>-->
-<!--          <login-form></login-form>-->
-<!--        </template>-->
-<!--      </my-modal>-->
+      <my-modal :show="visible" title-text="登录后才能发表评论" width="800" position="center" @close="close">
+        <template #content>
+          <login></login>
+        </template>
+      </my-modal>
 
 </template>
 
@@ -55,13 +55,14 @@ import {useRoute} from "vue-router";
 import commentList from './commentList.vue'
 import {hasAuth} from '../../../assets/js/global.js'
 import loginForm from '../common/loginForm.vue'
-
+import login from '../common/login.vue'
 export default {
   name: "comment",
   inject: ['alive'],
   components: {
     commentList: commentList,
     loginForm:loginForm,
+    login
   },
   props: {
     article: {
@@ -119,6 +120,10 @@ export default {
     const showModal = () => {
       visible.value = true;
     };
+
+    const close = () =>{
+      visible.value = false
+    }
     return {
       commentForm,
       comment,
@@ -127,6 +132,7 @@ export default {
       submitCommentForm,
       cancelComment,
       isAuth,
+      close,
       showModal,
 
     }

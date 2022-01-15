@@ -104,6 +104,11 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.attention-container{
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
 .user-list {
   height: 95%;
   .user-item{

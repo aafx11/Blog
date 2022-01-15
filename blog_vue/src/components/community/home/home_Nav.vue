@@ -445,6 +445,13 @@ a {
   /*border: 1px solid red;*/
 }
 
+@media screen and (max-width: 768px) {
+  .header-logo{
+    font-size: 1rem;
+    line-height: 15px;
+  }
+}
+
 @media screen and (max-width: 769px) {
   .header-logo {
     margin-left: 0;
@@ -513,7 +520,11 @@ ul {
   display: flex;
   align-items: center;
 }
-
+@media screen and (max-width: 768px) {
+  .nav-item{
+    font-size: 0.8rem;
+  }
+}
 .nav-item-title, .nav-item-ul li {
   cursor: pointer;
 }

@@ -1,4 +1,5 @@
 <template>
+
   <div class="search">
     <a-input v-model:value="searchContent" placeholder="请输入与文章相关的内容"></a-input>
     <a-button @click="getArticleDataByLike" type="primary">搜索</a-button>
@@ -35,6 +36,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -148,8 +150,10 @@ export default {
 </script>
 
 <style scoped>
+
 .search{
   display: flex;
+  background-color: #fff;
 }
 .search input{
   width: 50%;
@@ -163,12 +167,17 @@ export default {
   height: 100%;
   /*border: 1px solid black;*/
   padding: 15px 10px;
+  background-color: #fff;
+
 }
 .item-box{
   padding: 0px 5px;
-  background-color: #fff;
+  /*background-color: #fff;*/
   margin-bottom: 10px;
   border-radius: 7px;
+  /*background-color: #fff;*/
+  border: 1px solid black;
+
 }
 .item-box:hover{
   transform: translate(2px, 2px);
@@ -176,7 +185,7 @@ export default {
 }
 .title-header{
   height: 50px;
-  padding: 10px 15px;
+  padding: 10px 5px;
   font-size: 1rem;
   font-weight: 500;
   display: flex;

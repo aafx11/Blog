@@ -1,142 +1,143 @@
 <template>
   <div class="header-container">
-    <div class="header-left">
-      <div class="header-logo">
-        <router-link :to="{name:'index'}">
-          <span>Learning community</span>
-        </router-link>
-      </div>
+        <div class="header-left">
+          <div class="header-logo">
+            <router-link :to="{name:'index'}">
+              <span>Learning community</span>
+            </router-link>
+          </div>
 
-      <div class="search-box">
-<!--        <a-input v-model:value="searchForm" placeholder="请输入相关的内容" class="search-input">-->
-<!--          <template #prefix>-->
-<!--            <SearchOutlined/>-->
-<!--          </template>-->
-<!--        </a-input>-->
-        <my-selector @searchOptions="searchOptions" @setItemValue="setItemValue" class="search" placeholder="请输入相关的内容"></my-selector>
-      </div>
-      <div class="search-button">
-<!--        <a-button @click="pushSearchPage()">-->
-<!--          搜索-->
-<!--        </a-button>-->
-        <my-button @click="pushSearchPage()">搜索</my-button>
-      </div>
-    </div>
-    <div class="header-right">
-      <div class="nav-item">
-        <span class="nav-item-title" @click="pushIndex">
-          <HomeOutlined/>首页
-        </span>
-      </div>
-      <div class="nav-item">
-        <span class="nav-item-title" @click="pushIndex"><ReadOutlined/>文章<CaretDownOutlined/></span>
-        <ul class="nav-item-ul">
-          <li>
-            <div class="li-div" @click="pushLatestArticle">最新文章</div>
-          </li>
-          <li>
-            <div class="li-div" @click="pushHotArticle">热门文章</div>
-          </li>
-          <li>
-            <div class="li-div" @click="pushFollowArticle">全部关注</div>
-          </li>
-        </ul>
-      </div>
-      <div class="nav-item">
-        <span class="nav-item-title" @click="pushTagFile">
-          <BarsOutlined/>文章分类
-        </span>
-      </div>
-      <div class="nav-item">
-        <span class="nav-item-title" @click="pushEdit">
-          <EditOutlined/>发文章
-        </span>
-      </div>
-      <div class="nav-item">
-        <span class="nav-item-title" @click="pushRecommendedVideo">
-          <VideoCameraOutlined/>视频<CaretDownOutlined/>
-        </span>
-        <ul class="nav-item-ul">
-          <li>
-            <div class="li-div" @click="pushRecommendedVideo">热门推荐</div>
-          </li>
-          <li>
-            <div class="li-div" @click="pushVideoFollow">我的关注</div>
-          </li>
-          <li>
-            <div class="li-div" @click="pushVideoFollow">我的收藏</div>
-          </li>
-          <li>
-            <div class="li-div" @click="pushUploadVideo">上传视频</div>
-          </li>
-          <li>
-            <div class="li-div" @click="pushManuscript">稿件管理</div>
-          </li>
-        </ul>
-      </div>
-      <div class="nav-item">
-        <span class="nav-item-title" @click="pushPrivateLetter">
-          <a-badge :count="unReadMessageCount">
-            <MailOutlined style="font-size: 1rem" class="letter"/>
-          </a-badge>
-          私信
-        </span>
-      </div>
-      <div class="nav-item" v-if="!isAuth('hasLogin')">
-        <span class="nav-item-title" @click="pushLogin">
-          <LoginOutlined/>登录
-        </span>
-        <span>/</span>
-        <span class="nav-item-title" @click="pushRegister">
-          注册
-        </span>
-      </div>
-      <div class="nav-item" v-if="isAuth('hasLogin')">
-        <span class="nav-item-title" @click="pushUserPage">
-          <UserOutlined/>个人中心
-        </span>
-      </div>
-      <div class="nav-item" v-if="isAuth('hasLogin')">
-        <span class="nav-item-title" @click="pushUserPage">
-          <a-avatar :src="'http://localhost:8081/static/avatar/'+userInfoData.avatar" v-if="showInfo"></a-avatar>
-<!--          <a-avatar :src="'http://47.113.204.103:8081/static/avatar/'+userInfoData.avatar" v-if="showInfo"></a-avatar>-->
-          <CaretDownOutlined/>
-        </span>
-        <ul class="nav-item-ul">
-          <li>
-            <div class="li-div">
-              <router-link :to="{name:'myHomePage'}">
-                个人主页
-              </router-link>
-            </div>
-          </li>
-          <li>
-            <div class="li-div">
-              <router-link :to="{name:'myAttention'}">
-                我的关注
-              </router-link>
-            </div>
-          </li>
-          <li>
-            <div class="li-div">
-              <router-link :to="{name:'myFanList'}">
-                我的粉丝
-              </router-link>
-            </div>
-          </li>
-          <li>
-            <div class="li-div">
-              <router-link :to="{name:'editProfile'}">
-                编辑资料
-              </router-link>
-            </div>
-          </li>
-          <li>
-            <div class="li-div" @click="logout">退出登录</div>
-          </li>
-        </ul>
-      </div>
-    </div>
+          <div class="search-box">
+    <!--        <a-input v-model:value="searchForm" placeholder="请输入相关的内容" class="search-input">-->
+    <!--          <template #prefix>-->
+    <!--            <SearchOutlined/>-->
+    <!--          </template>-->
+    <!--        </a-input>-->
+            <my-selector @searchOptions="searchOptions" @setItemValue="setItemValue" class="search" placeholder="请输入相关的内容"></my-selector>
+          </div>
+          <div class="search-button">
+    <!--        <a-button @click="pushSearchPage()">-->
+    <!--          搜索-->
+    <!--        </a-button>-->
+            <my-button @click="pushSearchPage()" >搜索</my-button>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="nav-item">
+            <span class="nav-item-title" @click="pushIndex">
+              <HomeOutlined/>首页
+            </span>
+          </div>
+          <div class="nav-item">
+            <span class="nav-item-title" @click="pushIndex"><ReadOutlined/>文章<CaretDownOutlined/></span>
+            <ul class="nav-item-ul">
+              <li>
+                <div class="li-div" @click="pushLatestArticle">最新文章</div>
+              </li>
+              <li>
+                <div class="li-div" @click="pushHotArticle">热门文章</div>
+              </li>
+              <li>
+                <div class="li-div" @click="pushFollowArticle">全部关注</div>
+              </li>
+            </ul>
+          </div>
+          <div class="nav-item">
+            <span class="nav-item-title" @click="pushTagFile">
+              <BarsOutlined/>文章分类
+            </span>
+          </div>
+          <div class="nav-item">
+            <span class="nav-item-title" @click="pushEdit">
+              <EditOutlined/>发文章
+            </span>
+          </div>
+          <div class="nav-item">
+            <span class="nav-item-title" @click="pushRecommendedVideo">
+              <VideoCameraOutlined/>视频<CaretDownOutlined/>
+            </span>
+            <ul class="nav-item-ul">
+              <li>
+                <div class="li-div" @click="pushRecommendedVideo">热门推荐</div>
+              </li>
+              <li>
+                <div class="li-div" @click="pushVideoFollow">我的关注</div>
+              </li>
+              <li>
+                <div class="li-div" @click="pushVideoFollow">我的收藏</div>
+              </li>
+              <li>
+                <div class="li-div" @click="pushUploadVideo">上传视频</div>
+              </li>
+              <li>
+                <div class="li-div" @click="pushManuscript">稿件管理</div>
+              </li>
+            </ul>
+          </div>
+          <div class="nav-item">
+            <span class="nav-item-title" @click="pushPrivateLetter">
+              <a-badge :count="unReadMessageCount">
+                <MailOutlined style="font-size: 1rem" class="letter"/>
+              </a-badge>
+              私信
+            </span>
+          </div>
+          <div class="nav-item" v-if="!isAuth('hasLogin')">
+            <span class="nav-item-title" @click="pushLogin">
+              <LoginOutlined/>登录
+            </span>
+            <span>/</span>
+            <span class="nav-item-title" @click="pushRegister">
+              注册
+            </span>
+          </div>
+          <div class="nav-item" v-if="isAuth('hasLogin')">
+            <span class="nav-item-title" @click="pushUserPage">
+              <UserOutlined/>个人中心
+            </span>
+          </div>
+          <div class="nav-item" v-if="isAuth('hasLogin')">
+            <span class="nav-item-title" @click="pushUserPage">
+              <a-avatar :src="'http://localhost:8081/static/avatar/'+userInfoData.avatar" v-if="showInfo" :size="38"></a-avatar>
+    <!--          <a-avatar :src="'http://47.113.204.103:8081/static/avatar/'+userInfoData.avatar" v-if="showInfo"></a-avatar>-->
+              <CaretDownOutlined/>
+            </span>
+            <ul class="nav-item-ul">
+              <li>
+                <div class="li-div">
+                  <router-link :to="{name:'myHomePage'}">
+                    个人主页
+                  </router-link>
+                </div>
+              </li>
+              <li>
+                <div class="li-div">
+                  <router-link :to="{name:'myAttention'}">
+                    我的关注
+                  </router-link>
+                </div>
+              </li>
+              <li>
+                <div class="li-div">
+                  <router-link :to="{name:'myFanList'}">
+                    我的粉丝
+                  </router-link>
+                </div>
+              </li>
+              <li>
+                <div class="li-div">
+                  <router-link :to="{name:'editProfile'}">
+                    编辑资料
+                  </router-link>
+                </div>
+              </li>
+              <li>
+                <div class="li-div" @click="logout">退出登录</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
   </div>
 </template>
 
@@ -334,7 +335,7 @@ export default defineComponent({
     }
 
     // 输入框，输入监听
-    const searchOptions = (value)=>{
+    const searchOptions = (value) => {
       console.log(value);
       searchForm.value = value
     }
@@ -423,8 +424,9 @@ a {
   justify-content: space-between;
 }
 
+
 .header-left {
-  padding: 0px 15px;
+  /*padding: 0px 15px;*/
   width: 34%;
   display: flex;
   /*justify-content: flex-start;*/
@@ -436,7 +438,7 @@ a {
 
 .header-logo {
   height: auto;
-  margin-left: 2rem;
+  /*margin-left: 2rem;*/
   font-size: 1.6rem;
   /*line-height: px;*/
   font-weight: 600;
@@ -445,8 +447,10 @@ a {
   /*border: 1px solid red;*/
 }
 
+
+
 @media screen and (max-width: 768px) {
-  .header-logo{
+  .header-logo {
     font-size: 1rem;
     line-height: 15px;
   }
@@ -461,10 +465,12 @@ a {
 .search-box {
   width: 27%;
 }
-.search{
+
+.search {
   /*display: block;*/
   /*width: 100%;*/
 }
+
 .search-input {
   border: 1px solid black;
   border-radius: 10px;
@@ -478,6 +484,7 @@ a {
 .search-button button {
   border-radius: 10px;
   border: 1px solid black;
+  min-width: 60px;
 }
 
 .search-button button:hover {
@@ -520,11 +527,13 @@ ul {
   display: flex;
   align-items: center;
 }
+
 @media screen and (max-width: 768px) {
-  .nav-item{
+  .nav-item {
     font-size: 0.8rem;
   }
 }
+
 .nav-item-title, .nav-item-ul li {
   cursor: pointer;
 }
@@ -557,4 +566,36 @@ ul {
 .nav-item:hover .nav-item-ul {
   display: block;
 }
+
+/*.nav {*/
+/*  flex: 1 0 auto;*/
+/*  height: 100%;*/
+/*}*/
+
+/*.nav-list {*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*  align-items: center;*/
+/*  height: 100%;*/
+/*}*/
+
+/*.main-nav-list {*/
+/*  display: flex;*/
+/*  height: 100%;*/
+/*}*/
+
+
+/*.phone-hide {*/
+/*  display: flex;*/
+/*  height: 100%;*/
+/*}*/
+
+/*.phone-hide li {*/
+/*  font-size: 16px;*/
+/*  cursor: pointer;*/
+/*  margin: 0 10px;*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*}*/
 </style>

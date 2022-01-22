@@ -73,13 +73,14 @@
     <!--        <div class="iconfont icon-shoucang icon-style">{{scope.row.collects}}</div>-->
     <!--      </template>-->
     <!--    </el-table-column>-->
-    <el-table-column label="视频封面" width="140">
+    <el-table-column label="视频封面" width="145">
       <template #default="scope">
-        <el-image
-            style="width: 100px; height: 100px"
-            :src="'http://localhost:8081/static/videoCover/'+scope.row.coverUrl"
-        >
-        </el-image>
+<!--        <el-image-->
+<!--            style="width: 100px; height: 100px"-->
+<!--            :src="'http://localhost:8081/static/videoCover/'+scope.row.coverUrl"-->
+<!--        >-->
+<!--        </el-image>-->
+        <img :src="'http://localhost:8081/static/videoCover/'+scope.row.coverUrl" alt="加载失败" class="video-cover">
       </template>
     </el-table-column>
     <el-table-column label="视频内容" width="150">
@@ -378,5 +379,10 @@ a {
   display: flex;
   justify-content: flex-end;
   padding: 10px 10px;
+}
+.video-cover{
+  width: 120px;
+  height: 100px;
+  object-fit: cover;
 }
 </style>

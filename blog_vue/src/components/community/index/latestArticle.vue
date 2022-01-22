@@ -53,7 +53,7 @@ export default {
     const articleList = reactive([]);
     const show = ref(false);
 
-    const pageSize = ref(3);
+    const pageSize = ref(7);
     const current = ref(1);
     const total = ref()
     const tab = ref('latest')

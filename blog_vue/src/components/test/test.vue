@@ -1,20 +1,22 @@
 <template>
-  <div class="wrapper">
-    <my-magnifier
-      link="link"
-      :blank="blank"
-      :imgUrl="imgUrl"
-      :imgWidth="imgWidth"
-      :imgHeight="imgHeight"
-      :magWidth="magWidth"
-      :magHeight="magHeight"
-      imgAlt="测试"
-      ref="test"
-    >
+<!--  <div class="wrapper">-->
+<!--    <my-magnifier-->
+<!--      link="link"-->
+<!--      :blank="blank"-->
+<!--      :imgUrl="imgUrl"-->
+<!--      :imgWidth="imgWidth"-->
+<!--      :imgHeight="imgHeight"-->
+<!--      :magWidth="magWidth"-->
+<!--      :magHeight="magHeight"-->
+<!--      imgAlt="测试"-->
+<!--      ref="test"-->
+<!--    >-->
 
-    </my-magnifier>
+<!--    </my-magnifier>-->
     <router-view></router-view>
-  </div>
+<!--  </div>-->
+
+
 </template>
 
 <script>
@@ -47,8 +49,10 @@ export default {
     })
 
 
-    let test = ref(null)
-    console.log(test);
+    let test = ()=>{
+      console.log(123);
+    }
+
     return {
       ...toRefs(state),
       test
@@ -63,6 +67,10 @@ export default {
 <style lang="scss" scoped>
 .wrapper{
   margin: 100px auto;
+}
+.test-button:disabled{
+  width: 50px;
+  height: 50px;
 }
 </style>
 

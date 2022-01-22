@@ -169,7 +169,8 @@ export default {
 <style scoped>
 .row-container {
   width: 100%;
-  height: 100%;
+  /*height: 100%;*/
+  height: auto;
   padding: 0px;
 }
 
@@ -177,7 +178,9 @@ export default {
 .col-left {
   width: 100%;
   height: 100%;
-  padding: 0px;
+  background: #fff;
+
+  padding: 0 20px;
   /*border: 1px solid black;*/
 }
 
@@ -288,6 +291,11 @@ export default {
   border: 1px solid #00a1d6;
 }
 
+.video-comment{
+  width: 100%;
+  /*padding: 0 20px;*/
+  /*box-sizing: content-box;*/
+}
 /*左侧---------------------------------------end*/
 
 /*右侧---------------------------------------start*/
@@ -295,6 +303,7 @@ export default {
 .col-right {
   width: 100%;
   height: 100%;
+  /*background-color: #fff;*/
   padding: 15px 15px;
   /*border: 1px solid crimson;*/
 }

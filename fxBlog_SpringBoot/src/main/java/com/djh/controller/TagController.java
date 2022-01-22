@@ -1,9 +1,13 @@
 package com.djh.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.djh.common.lang.Result;
+import com.djh.entity.Article;
+import com.djh.entity.ArticleTag;
 import com.djh.entity.Tag;
+import com.djh.mapper.ArticleTagMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,6 +32,12 @@ public class TagController extends BaseController {
     public Result getTagList( @RequestParam(value = "current", defaultValue = "1") Integer current,
                               @RequestParam(value = "size", defaultValue = "6") Integer size){
         Page<Tag> list = tagService.getTagListByPage(new Page<>(current,size));
+        list.getRecords().forEach(item ->{
+            QueryWrapper<ArticleTag> wrapper = new QueryWrapper<>();
+            wrapper.eq("tag_id",item.getId());
+            Integer count = articleTagMapper.selectCount(wrapper);
+            item.setArticleCount(count);
+        });
         return Result.success(list);
 
     }

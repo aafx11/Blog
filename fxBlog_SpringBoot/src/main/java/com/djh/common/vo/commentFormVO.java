@@ -25,6 +25,7 @@ public class commentFormVO {
     private String content;
     private Integer score;
     private Long parentId;
+    private Integer state;
 
     @TableId(value = "id" , type = IdType.AUTO)
     private Long id;

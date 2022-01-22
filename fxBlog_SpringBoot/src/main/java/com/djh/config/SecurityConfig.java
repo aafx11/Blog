@@ -54,10 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String[] URL_WHITELIST = {"/webjars/**", "/favicon.ico", "/getCodeImg", "/login", "/logout", "/test/**", "/register", "/information/getNotices", "/article/articleList",
             "/article/getArticleById","/upload/articleImg","/tag/**","/article/articleListByTag","/comment/getCommentList","/article/ArticleListByLikeSearch",
-            "/follow/hasFollow/**","/commentform//getCommentList","/articleLike/likewise","/articleCollect/collect","/ws/**","/webSocket/**","/videoInfo/getVideoDetailByVideoId",
+            "/follow/hasFollow/**","/commentform/getCommentList","/articleLike/likewise","/articleCollect/collect","/ws/**","/webSocket/**","/videoInfo/getVideoDetailByVideoId",
             "/videoInfo/getVideoByStateOrLike","/videoInfo/getVideoOrderByView","/videoInfo/getVideoOrderByCreated","/videoLike/**","/videoCollect/**","/user/getUserProfileVOById"
             ,"/static/**","/videoComment/**","/videoInfo/getVideoByTag","/tagsVideo/getVideoTags","/article/getArticleByUserId","/follow/getFollowListByUserId","/follow/getFansListByUserId",
-            "/user/getRandomUsers"
+            "/user/getRandomUsers","/commentform/getLatestComments"
     };
 
     @Override

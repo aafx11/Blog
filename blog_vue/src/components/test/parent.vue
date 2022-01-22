@@ -1,5 +1,4 @@
 <template>
-  <div>123</div>
     <div class="app-container">
     <div class="app-header">
       <div class="app-header-left">

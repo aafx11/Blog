@@ -172,8 +172,8 @@ body > .el-container {
   min-width: 248px;
 
   height: 100vh;
-  /*background-color: rgb(120, 125, 222);*/
-  background-color: #fff;
+  background-color: #545c64;
+  /*background-color: #fff;*/
   flex: 1;
   padding-top: 64px;
 

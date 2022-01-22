@@ -109,6 +109,7 @@ a{
 .video-card-left img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
   border-radius: 5px;
   transition: all 0.3s ease-out;
   /* 过度 所有css属性 1秒过度 结束慢*/

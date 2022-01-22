@@ -73,6 +73,9 @@ public class BaseController {
     ArticleTagService articleTagService;
 
     @Autowired
+    ArticleTagMapper articleTagMapper;
+
+    @Autowired
     SessionListService sessionListService;
     @Autowired
     RandomUtil randomUtil;

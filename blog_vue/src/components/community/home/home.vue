@@ -32,6 +32,8 @@ export default {
   padding: 0 0;
   margin-top:62px ;
   height: 100%;
+  /*height: auto;*/
+  width: 100%;
 }
 
 </style>

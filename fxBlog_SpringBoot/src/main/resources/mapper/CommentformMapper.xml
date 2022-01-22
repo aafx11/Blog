@@ -13,14 +13,35 @@
         <result column="score" property="score"/>
         <result column="username" property="username"/>
         <result column="avatar_base64" property="avatarBase64"/>
+        <result column="state" property="state"></result>
     </resultMap>
 
     <select id="getCommentListByArticleId" resultMap="comment">
-        SELECT c.id,c.article_id,c.user_id,c.content,c.created,
+        SELECT c.id,c.article_id,c.user_id,c.content,c.created,c.state,
                c.parent_id,u.nickname,u.avatar,u.score,u.username,u.avatar_base64
         FROM commentform c
                 LEFT JOIN user_info u
                 on c.user_id = u.id
         WHERE c.article_id = #{articleId}
+    </select>
+
+    <select id="getLatestCommentList" resultMap="comment">
+        SELECT c.id,c.article_id,c.user_id,c.content,c.created,
+               c.parent_id,u.nickname,u.avatar,u.score,u.username,u.avatar_base64
+        FROM commentform c
+                 LEFT JOIN user_info u
+                           on c.user_id = u.id
+        order by c.created desc
+            LIMIT 8
+    </select>
+
+    <select id="getCommentListByPage" resultMap="comment">
+        SELECT c.id,c.article_id,c.user_id,c.content,c.created,c.state,
+               c.parent_id,u.nickname,u.avatar,u.score,u.username,u.avatar_base64
+        FROM commentform c
+                 LEFT JOIN user_info u
+                           on c.user_id = u.id
+        order by c.created desc
+
     </select>
 </mapper>

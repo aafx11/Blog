@@ -1,50 +1,118 @@
 <template>
-  <el-popover placement="left-start" trigger="hover" width="300" popper-class="popper"
-              v-for="(item,index) in articleData">
-    <template #reference>
-      <div class="container-box">
-        <div class="container-inner">
-          <img :src="'http://localhost:8081/static/articleCover/'+item.cover" class="cover"/>
-<!--          <img :src="'http://47.113.204.103:8081/static/articleCover/'+item.cover" class="cover"/>-->
-          <router-link :to="{name:'articleDetail',params: {id:item.id}}">
-            <div class="text-box">
-              <div class="title" v-text="item.title"></div>
-              <div class="br-line"></div>
-              <div class="introduction" v-text="item.introduction"></div>
-            </div>
-          </router-link>
-          <div class="tag-box">
-            <a-button @click="pushTagFile(tag.id)" v-for="tag in item.tags" class="buttonColor">{{
-                tag.name
-              }}
-            </a-button>
+  <!--  <el-popover placement="left-start" trigger="hover" width="300" popper-class="popper"-->
+  <!--              v-for="(item,index) in articleData">-->
+  <!--    <template #reference>-->
+  <!--      <div class="container-box">-->
+  <!--        <div class="container-inner">-->
+  <!--          <img :src="'http://localhost:8081/static/articleCover/'+item.cover" class="cover"/>-->
+  <!--&lt;!&ndash;          <img :src="'http://47.113.204.103:8081/static/articleCover/'+item.cover" class="cover"/>&ndash;&gt;-->
+  <!--          <router-link :to="{name:'articleDetail',params: {id:item.id}}">-->
+  <!--            <div class="text-box">-->
+  <!--              <div class="title" v-text="item.title"></div>-->
+  <!--              <div class="br-line"></div>-->
+  <!--              <div class="introduction" v-text="item.introduction"></div>-->
+  <!--            </div>-->
+  <!--          </router-link>-->
+  <!--          <div class="tag-box">-->
+  <!--            <a-button @click="pushTagFile(tag.id)" v-for="tag in item.tags" class="buttonColor">{{-->
+  <!--                tag.name-->
+  <!--              }}-->
+  <!--            </a-button>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--    </template>-->
+  <!--    <span @click="pushAuthorPage(item.username,item.userId)" class="author-button"><UserOutlined/>作者:{{ item.nickname }}</span>-->
+  <!--    <span class="Calendar"><CalendarOutlined/>{{ item.created }}</span>-->
+  <!--    <div class="icon-box">-->
+  <!--      &lt;!&ndash;已点赞&ndash;&gt;-->
+  <!--      <span class="like" v-if="item.hasLike" :key="item.userId">-->
+  <!--            <LikeOutlined :style="{fontSize: '20px', color: '#0060ff'}" @click="unLike(item.id)"/>{{ item.likeCount }}-->
+  <!--      </span>-->
+  <!--      &lt;!&ndash;未点赞&ndash;&gt;-->
+  <!--      <span class="like" v-else><LikeOutlined @click="like(item.id)"/>{{ item.likeCount }}</span>-->
+  <!--      &lt;!&ndash;取消收藏&ndash;&gt;-->
+  <!--      <span class="collect" v-if="item.hasCollect" :key="item.userId">-->
+  <!--            <StarOutlined :style="{fontSize: '20px', color: '#08c'}"-->
+  <!--                          @click="unCollectArticle(item.id)"/>{{ item.collects }}-->
+  <!--      </span>-->
+  <!--      &lt;!&ndash;收藏&ndash;&gt;-->
+  <!--      <span class="collect" v-else :key="item.id">-->
+  <!--            <StarOutlined :style="{fontSize: '20px'}" @click="collectArticle(item.id)"/>{{ item.collects }}-->
+  <!--    </span>-->
+  <!--      <span class="share">-->
+  <!--      <ShareAltOutlined/>-->
+  <!--    </span>-->
+  <!--    </div>-->
+  <!--  </el-popover>-->
+  <!--  <router-link :to="{name:'articleDetail',params: {id:item.id}}" v-for="(item,index) in articleData">-->
+  <div class="item-container" @click="pushToDetail(item.id)" v-for="(item,index) in articleData">
+    <div class="info-container">
+      <div class="user-message" @click.stop="pushAuthorPage(item.username,item.userId)">{{ item.nickname }}</div>
+      <div class="dividing"></div>
+      <div class="date">{{ item.created }}</div>
+      <div class="dividing"></div>
+      <div class="tag-list">
+        <div class="tag" v-for="tag in item.tags" @click.stop="pushTagFile(tag.id)">{{ tag.name }}</div>
+      </div>
+    </div>
+    <div class="content-wrapper">
+      <div class="info-box">
+        <div class="title">{{ item.title }}</div>
+        <div class="introduction-box">{{ item.introduction }}</div>
+        <div class="bottom-box">
+          <!--          <div class="iconfont icon-guankancishu item">{{ item.view }}</div>-->
+          <span class="item">
+            <EyeOutlined/>
+            {{ item.view }}
+          </span>
+          <div class="item">
+            <span v-if="item.hasLike" :key="item.userId">
+              <LikeOutlined :style="{ color: '#0060ff'}" @click.stop="unLike(item.id)"/>
+              {{ item.likeCount }}
+            </span>
+            <span v-else>
+              <LikeOutlined @click.stop="like(item.id)"/>
+              {{ item.likeCount }}
+            </span>
+
+          </div>
+          <div class="item">
+               <span v-if="item.hasCollect" :key="item.userId">
+                <StarOutlined :style="{ color: '#08c'}"
+                              @click.stop="unCollectArticle(item.id)"/>{{ item.collects }}
+         </span>
+            <span v-else :key="item.id">
+                              <StarOutlined @click.stop="collectArticle(item.id)"/>{{ item.collects }}
+                      </span>
           </div>
         </div>
       </div>
-    </template>
-    <span @click="pushAuthorPage(item.username,item.userId)" class="author-button"><UserOutlined/>作者:{{ item.nickname }}</span>
-    <span class="Calendar"><CalendarOutlined/>{{ item.created }}</span>
-    <div class="icon-box">
-      <!--已点赞-->
-      <span class="like" v-if="item.hasLike" :key="item.userId">
-            <LikeOutlined :style="{fontSize: '20px', color: '#0060ff'}" @click="unLike(item.id)"/>{{ item.likeCount }}
-      </span>
-      <!--未点赞-->
-      <span class="like" v-else><LikeOutlined @click="like(item.id)"/>{{ item.likeCount }}</span>
-      <!--取消收藏-->
-      <span class="collect" v-if="item.hasCollect" :key="item.userId">
-            <StarOutlined :style="{fontSize: '20px', color: '#08c'}"
-                          @click="unCollectArticle(item.id)"/>{{ item.collects }}
-      </span>
-      <!--收藏-->
-      <span class="collect" v-else :key="item.id">
-            <StarOutlined :style="{fontSize: '20px'}" @click="collectArticle(item.id)"/>{{ item.collects }}
-    </span>
-      <span class="share">
-      <ShareAltOutlined/>
-    </span>
+      <img :src="'http://localhost:8081/static/articleCover/'+item.cover" alt="加载失败">
     </div>
-  </el-popover>
+    <!--          <div class="icon-box">-->
+    <!--            &lt;!&ndash;已点赞&ndash;&gt;-->
+    <!--            <span class="like" v-if="item.hasLike" :key="item.userId">-->
+    <!--                  <LikeOutlined :style="{fontSize: '20px', color: '#0060ff'}" @click="unLike(item.id)"/>{{ item.likeCount }}-->
+    <!--            </span>-->
+    <!--            &lt;!&ndash;未点赞&ndash;&gt;-->
+    <!--            <span class="like" v-else><LikeOutlined @click="like(item.id)"/>{{ item.likeCount }}</span>-->
+    <!--            &lt;!&ndash;取消收藏&ndash;&gt;-->
+    <!--            <span class="collect" v-if="item.hasCollect" :key="item.userId">-->
+    <!--                  <StarOutlined :style="{fontSize: '20px', color: '#08c'}"-->
+    <!--                                @click="unCollectArticle(item.id)"/>{{ item.collects }}-->
+    <!--            </span>-->
+    <!--            &lt;!&ndash;收藏&ndash;&gt;-->
+    <!--            <span class="collect" v-else :key="item.id">-->
+    <!--                  <StarOutlined :style="{fontSize: '20px'}" @click="collectArticle(item.id)"/>{{ item.collects }}-->
+    <!--          </span>-->
+    <!--            <span class="share">-->
+    <!--            <ShareAltOutlined/>-->
+    <!--          </span>-->
+    <!--          </div>-->
+
+  </div>
+  <!--  </router-link>-->
 </template>
 
 <script>
@@ -56,7 +124,9 @@ import {
   CheckCircleTwoTone,
   UserOutlined,
   CalendarOutlined,
-  ShareAltOutlined
+  ShareAltOutlined,
+  EyeOutlined
+
 } from '@ant-design/icons-vue';
 import {message} from 'ant-design-vue';
 import {useRouter} from "vue-router";
@@ -79,7 +149,9 @@ export default {
     CheckCircleTwoTone,
     UserOutlined,
     CalendarOutlined,
-    ShareAltOutlined
+    ShareAltOutlined,
+    EyeOutlined
+
   },
   setup() {
     const router = useRouter();
@@ -133,6 +205,9 @@ export default {
       })
     }
 
+    const pushToDetail = (id) => {
+      router.push({name: 'articleDetail', params: {id: id}})
+    }
     return {
       tooltipStyle,
       pushTagFile,
@@ -141,6 +216,7 @@ export default {
       like,
       unCollectArticle,
       collectArticle,
+      pushToDetail,
     }
   }
 }
@@ -448,5 +524,123 @@ a {
   color: #0c0c0c;
 }
 
+/*新布局*/
+.item-container {
+  width: 100%;
+  padding: 12px 20px 0 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #e5e6eb;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
+.item-container:hover {
+  background-color: #fafafa;
+}
+
+.info-container {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+
+}
+
+.user-message {
+  color: rgb(78, 89, 105);
+
+}
+
+.user-message:hover {
+  color: #1d7dfa;
+}
+
+.dividing {
+  width: 2px;
+  height: 14px;
+  background-color: #e5e6eb;
+  margin: 0 8px;
+}
+
+.date {
+  color: #86909c;
+}
+
+.content-wrapper {
+  display: flex;
+  margin-top: 8px;
+  width: 100%;
+  padding-bottom: 12px;
+}
+
+.info-box {
+  flex-grow: 1;
+}
+
+.info-box .title {
+  color: rgb(29, 33, 41);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.info-box .introduction-box {
+  padding-top: 10px;
+  padding-bottom: 8px;
+  color: #86909c;
+
+}
+
+.content-wrapper img {
+  width: 120px;
+  height: 80px;
+  margin-left: 24px;
+  border-radius: 2px;
+  flex: 0 0 auto;
+  object-fit: cover;
+}
+
+.bottom-box {
+  display: flex;
+  align-items: center;
+  color: #86909c;
+  font-size: 18px;
+}
+
+.bottom-box .item {
+  height: 100%;
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tag-list {
+  display: flex;
+  align-items: center;
+}
+
+.tag-list .tag:not(:last-child):after {
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  display: block;
+  content: " ";
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #4e5969;
+}
+
+.tag {
+  position: relative;
+  color: #86909c;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.tag:hover {
+  color: #1d7dfa;
+
+}
 </style>

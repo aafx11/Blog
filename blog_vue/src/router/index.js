@@ -13,7 +13,7 @@ const resetpassword = () => import('../components/admin/view/system/personalcent
 const privateletter = () => import('../components/admin/view/system/information/privateletter.vue');
 const articleList = () => import('../components/admin/view/system/article/articleList.vue');
 const VideoList = () => import('../components/admin/view/system/video/VideoList.vue');
-
+const articleComment = () => import('../components/admin/view/system/information/comment.vue')
 
 let map = {}
 map['role'] = role
@@ -24,6 +24,7 @@ map['resetpassword'] = resetpassword
 map['privateletter'] = privateletter
 map['articleList'] = articleList
 map['VideoList'] = VideoList
+map['comment'] = articleComment
 
 //requireAuth:游客也能获取,但是游客和登录用户所显示页面不同
 //mustLogin：比如登录后才可浏览

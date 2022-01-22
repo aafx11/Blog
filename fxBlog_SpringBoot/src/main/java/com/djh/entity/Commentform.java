@@ -1,6 +1,7 @@
 package com.djh.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
@@ -32,10 +33,13 @@ public class Commentform {
 
     private Long parentId;
 
+    private Integer state;
+
     @TableId(value = "id" , type = IdType.AUTO)
     private Long id;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime created;
 
+    @TableField(exist = false)
     List<Commentform> child;
 }

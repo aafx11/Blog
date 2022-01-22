@@ -1,5 +1,6 @@
 package com.djh.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.djh.common.DTO.commentDto;
 import com.djh.common.vo.commentFormVO;
 import com.djh.entity.Commentform;
@@ -20,4 +21,11 @@ public interface CommentformService extends IService<Commentform> {
     List<commentFormVO> getCommentTreeByArticleId(Long articleId);
 
     Boolean saveComment(Authentication auth, commentDto commentDto);
+
+    List<commentFormVO> getLatestCommentLis();
+
+    Page<commentFormVO> getCommentListByPage(Page<commentFormVO> page);
+
+    Boolean updateCommentState(Long commentId);
+
 }

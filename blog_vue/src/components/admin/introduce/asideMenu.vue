@@ -1,5 +1,4 @@
 <template>
-  <div>
 
     <router-link :to="{path:'/welcome',query:{title:'首页'}}" @click="selectMenu(itemIndex)">
       <div class="index-txt">首页</div>
@@ -7,6 +6,8 @@
     <el-menu
         :default-active="editableTabsValue"
         class="el-menu-vertical-demo"
+        background-color="#545c64"
+        text-color="#fff"
     >
 
 
@@ -70,8 +71,11 @@ export default {
 <style scoped>
 .index-txt {
   height: 40px;
-  color: black;
+  /*color: black;*/
+  color: #fff;
+  background-color: #545c64;
   padding: 10px 0 0 20px;
   border-right: 1px solid rgba(189, 187, 187, 0.5);
+
 }
 </style>

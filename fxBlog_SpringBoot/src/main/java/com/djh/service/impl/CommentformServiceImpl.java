@@ -1,6 +1,8 @@
 package com.djh.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.djh.common.DTO.commentDto;
 import com.djh.common.vo.commentFormVO;
 import com.djh.entity.Commentform;
@@ -58,11 +60,11 @@ public class CommentformServiceImpl extends ServiceImpl<CommentformMapper, Comme
                     continue;
                 }
 
-                if (parent.getId().intValue() == c.getId().intValue()){
+                if (parent.getId().intValue() == c.getId().intValue()) {
                     continue;
                 }
 
-                if (parent.getChild() == null){
+                if (parent.getChild() == null) {
                     parent.setChild(new ArrayList<>());
                 }
                 c.setParentNickname(parent.getNickname());
@@ -72,19 +74,58 @@ public class CommentformServiceImpl extends ServiceImpl<CommentformMapper, Comme
         return result;
     }
 
-    public Boolean saveComment(Authentication auth, commentDto commentDto){
+    public Boolean saveComment(Authentication auth, commentDto commentDto) {
         UserInfo user = userInfoService.getByUsername(auth.getName());
-        System.out.println("文章id"+commentDto.getArticleId());
+        System.out.println("文章id" + commentDto.getArticleId());
         Commentform commentform = new Commentform();
         commentform.setArticleId(commentDto.getArticleId());
         commentform.setUserId(user.getId());
         commentform.setContent(commentDto.getContent());
         commentform.setCreated(LocalDateTime.now());
-        if (!ObjectUtils.isNull(commentDto.getParentId())){
+        if (!ObjectUtils.isNull(commentDto.getParentId())) {
             commentform.setParentId(commentDto.getParentId());
         }
 
         boolean save = commentformService.save(commentform);
         return save;
     }
+
+    // 获取最新文章评论
+    @Override
+    public List<commentFormVO> getLatestCommentLis() {
+        List<commentFormVO> latestCommentList = this.baseMapper.getLatestCommentList();
+        return latestCommentList;
+    }
+
+    // 获取所有评论
+    public Page<commentFormVO> getCommentListByPage(Page<commentFormVO> page) {
+        Page<commentFormVO> commentListByPage = this.baseMapper.getCommentListByPage(page);
+
+        return commentListByPage;
+    }
+
+    // 修改文章评论的状态
+    public Boolean updateCommentState(Long commentId) {
+        Commentform byId = commentformService.getById(commentId);
+        System.out.println(byId);
+
+        if (byId.getState() == 1) {
+            boolean update = commentformService.update(new UpdateWrapper<Commentform>()
+                    .eq("id", commentId)
+                    .set("state", 0)
+            );
+            return update;
+
+        } else {
+            boolean update = commentformService.update(new UpdateWrapper<Commentform>()
+                    .eq("id", commentId)
+                    .set("state", 1)
+            );
+
+            return update;
+
+        }
+
+    }
+
 }

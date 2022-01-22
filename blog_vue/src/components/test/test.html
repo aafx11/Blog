@@ -1,34 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 </head>
 <body>
 <div class="box1"></div>
 <div class="box2"></div>
+<div class="box4">
+    <div class="box3"></div>
+
+</div>
+
 </body>
 </html>
 <script>
-    let a = [
-        1,2,3
-    ]
-    a.length = 0
-    console.log(a);
+
 </script>
 <style>
-    .body{
-        height: 100%;
+    .box4{
+        width: 200px;
+        height: 200px;
+        border: 1px solid black;
     }
-    .box1 {
-        width: 100px;
-        height: 100px;
-        border: 1px solid blue;
-        float: right;
-    }
-    .box2{
-        width: 100px;
-        height: 2000px;
-        background-color: pink;
+    .box1 ~ .box4{
+        height: 50px;
+        width: 50px;
+        background-color: black;
     }
 </style>

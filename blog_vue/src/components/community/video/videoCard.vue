@@ -3,7 +3,7 @@
   <div class="video-card">
     <router-link :to="{name:'videoDetail',params:{id:videoData.id}}">
     <div class="image-box">
-      <img :src="'http://localhost:8081/static/videoCover/'+videoData.coverUrl" alt="">
+      <img :src="'http://localhost:8081/static/videoCover/'+videoData.coverUrl" alt="" class="cover">
 <!--      <img :src="'http://47.113.204.103:8081/static/videoCover/'+videoData.coverUrl" alt="">-->
     </div>
     </router-link>
@@ -123,5 +123,8 @@ a{
   background-color: #fff5ef;
   margin-right: 5px;
 
+}
+.cover{
+  object-fit: cover;
 }
 </style>

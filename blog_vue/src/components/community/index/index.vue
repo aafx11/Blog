@@ -80,6 +80,15 @@
     </a-col>
 
   </a-row>
+<!--<div class="main-container">-->
+<!--  <div class="navigation"></div>-->
+<!--  <div class="content-container">-->
+<!--    <div class="content">-->
+<!--      -->
+<!--    </div>-->
+<!--    <div class="aside"></div>-->
+<!--  </div>-->
+<!--</div>-->
 </template>
 
 <script>
@@ -516,4 +525,49 @@ export default {
     }
   }
 }
+
+
+
+// 新布局
+//.main-container{
+//  position: relative;
+//  max-width: 960px;
+//  width: 100%;
+//  height: auto;
+//  margin: 0 auto;
+//  display: flex;
+//  flex-direction: column;
+//
+//  .navigation{
+//    position: sticky;
+//    top: 5%;
+//    max-width: 960px;
+//    width: 100%;
+//    height: 50px;
+//    //background-color: red;
+//    border: 1px solid black;
+//    margin: 0 auto;
+//    z-index: 100;
+//  }
+//
+//  .content-container{
+//    display: flex;
+//  }
+//
+//  .content{
+//    width: 700px;
+//    min-height: 1920px;
+//    background-color: #fff;
+//    border-radius: 2px;
+//  }
+//  .aside{
+//    position: sticky;
+//    top: 5%;
+//    min-width: 250px;
+//    height: 200px;
+//    background-color: #fff;
+//    border-radius: 2px;
+//    margin-left: 10px;
+//  }
+//}
 </style>

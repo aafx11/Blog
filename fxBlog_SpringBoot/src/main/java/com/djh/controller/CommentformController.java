@@ -70,7 +70,7 @@ public class CommentformController extends BaseController {
     }
 
     // 修改文章评论的状态
-    @PreAuthorize("hasAnyAuthority('information:comment')")
+    @PreAuthorize("hasAnyAuthority('comment:updateState')")
     @PostMapping("/updateCommentState")
     public Result updateCommentState(@RequestBody Long commentId){
 

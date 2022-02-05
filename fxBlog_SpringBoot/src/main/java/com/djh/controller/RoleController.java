@@ -126,22 +126,17 @@ public class RoleController extends BaseController {
     @PreAuthorize("hasAuthority('role:perm')")
     @PostMapping("/perm/{roleId}")
     public Result perm(@PathVariable("roleId") Long roleId,@RequestBody Long[] menuIds){
-
         List<RoleMenu> roleMenus = new ArrayList<>();
-
         Arrays.stream(menuIds).forEach(menuId ->{
             RoleMenu roleMenu = new RoleMenu();
             roleMenu.setMenuId(menuId);
             roleMenu.setRoleId(roleId);
-
             roleMenus.add(roleMenu);
         });
-
         roleMenuService.remove(new QueryWrapper<RoleMenu>().eq("role_id",roleId));
         roleMenuService.saveBatch(roleMenus);
         System.out.println("获取的"+roleId);
         userInfoService.clearRedisAuthorityByRoleId(roleId);
-
         return Result.success(menuIds);
     }
 

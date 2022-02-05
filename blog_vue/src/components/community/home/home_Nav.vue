@@ -207,6 +207,7 @@ export default defineComponent({
 
     const logout = () => {
       UserLogout().then((res) => {
+        unReadMessageCount.value = 0
         localStorage.clear();
         sessionStorage.clear();
         store.commit("resetState");

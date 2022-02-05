@@ -147,6 +147,12 @@ const router = createRouter({
                     meta: {mustLogin: true}
                 },
                 {
+                    path: 'modifyArticle/:id',
+                    name: 'modifyArticle',
+                    component:()=>import('../components/admin/view/system/article/editArticle.vue'),
+                    meta: {mustLogin: true}
+                },
+                {
                     path: '/personal',
                     name: 'personal',
                     component: () => import('../components/community/personalCenter/personalCenter.vue'),

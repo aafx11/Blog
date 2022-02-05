@@ -7,7 +7,7 @@
     <!--      </el-form-item>-->
     <!--    </el-form>-->
     <div class="top-container">
-      <my-button type="primary" @click="dialogVisible = true">添加菜单</my-button>
+      <my-button type="primary" @click="dialogVisible = true" v-if="isAuth('menu:save')">添加菜单</my-button>
     </div>
 
     <!--菜单信息表格-->
@@ -70,7 +70,7 @@
           <!--            <el-button type="warning" icon="el-icon-edit" @click="editHandle(scope.row.id)"></el-button>-->
           <!--          </el-tooltip>-->
           <div class="button-container">
-            <my-button type="primary" size="mini" @click="editHandle(scope.row.id)">编辑</my-button>
+            <my-button type="primary" size="mini" @click="editHandle(scope.row.id)" v-if="isAuth('menu:update')">编辑</my-button>
             <!--删除按钮-->
             <el-popconfirm
                 title="确定删除吗？"
@@ -164,6 +164,7 @@ import {ElMessageBox, ElMessage} from 'element-plus';
 import {MenuList, getMenuById, deleteById, updateOrSave} from '../../../../../request/api/menu.js'
 import {hasAuth} from '../../../../../assets/js/global.js'
 import myButton from '../../../../../view/myButton.vue'
+import {useStore} from "vuex";
 
 export default {
   name: "menuManagement",
@@ -232,9 +233,16 @@ export default {
     }
 
 
-    /*删除按钮是否显示，待完成*/
-    const isAuth = (data) => {
-      return hasAuth(data);
+    const store = useStore()
+
+    const isAuth = (perm) => {
+      // return hasAuth(data);
+      const authority = store.state.menus.permList
+      if (authority.indexOf(perm) > -1){
+        return true
+      } else {
+        return false
+      }
     }
 
     const dialogVisible = ref(false);

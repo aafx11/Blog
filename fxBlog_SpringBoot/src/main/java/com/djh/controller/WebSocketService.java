@@ -199,7 +199,7 @@ public class WebSocketService {
                 System.out.println("list里面的id"+o);
 
                 if (oneId.equals(o) ){
-                    System.out.println("对方正在该会话中,之间推送消息");
+                    System.out.println("对方正在该会话中,直接推送消息");
                     //对方正在该会话中,之间推送消息
                     sendMessageToUser(sessionList.getToUserId(), JSONUtil.toJsonStr(messageInfo));
                 }else {

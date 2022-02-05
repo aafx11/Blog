@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="manuscript-main">
-      <videoList :videoList="videoData" v-if="showList"></videoList>
+      <videoList :videoList="videoData" v-if="showList" @update="getAllVideoData"></videoList>
       <div>
         <a-pagination
             :total="total"

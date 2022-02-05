@@ -58,7 +58,8 @@
     <el-table-column label="作者" width="150">
       <template #default="scope">
         <div class="userInfo-box">
-          <el-avatar :size="32" :src="scope.row.avatar" @error="errorHandler"></el-avatar>
+<!--          <el-avatar :size="32" :src="'http://localhost:8081/static/avatar/'+scope.row.avatar" @error="errorHandler"></el-avatar>-->
+          <img :src="'http://localhost:8081/static/avatar/'+scope.row.avatar" alt="加载失败" class="avatar-img">
           <span>{{ scope.row.nickname }}</span>
         </div>
       </template>
@@ -384,5 +385,11 @@ a {
   width: 120px;
   height: 100px;
   object-fit: cover;
+}
+.avatar-img{
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 </style>

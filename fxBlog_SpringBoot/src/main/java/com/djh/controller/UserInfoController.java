@@ -109,6 +109,7 @@ public class UserInfoController extends BaseController {
         return Result.success("删除成功");
     }
 
+    //分配角色
     @PreAuthorize("hasAuthority('user:perm')")
     @Transactional
     @PostMapping("/perm/{userId}")
@@ -196,39 +197,40 @@ public class UserInfoController extends BaseController {
         }
 
 
-
     }
 
     //根据用户id获取用户信息，用于进入他人的个人主页
 //    @PreAuthorize("hasAuthority('hasLogin')")
     @PostMapping("/getUserProfileVOById")
-    public Result getUserProfileVOById (@RequestBody Long id) {
-        System.out.println("用户id"+id);
+    public Result getUserProfileVOById(@RequestBody Long id) {
+        System.out.println("用户id" + id);
         UserProfileVO userProfile = userInfoService.getUserProfileById(id);
         return Result.success(userProfile);
     }
 
-    @PreAuthorize("hasAuthority('user:update')")
+
+    @PreAuthorize("hasAnyRole('ROLE_admin','ROLE_normal')")
     @GetMapping("/updateUserNickname")
-    public Result updateUserNickname(String data,Principal principal) {
+    public Result updateUserNickname(String data, Principal principal) {
 
-            UserInfo existence = userInfoService.getByNickname(data);
-            System.out.println("ex"+existence);
-            if (ObjectUtils.isNull(existence)){
-                UserInfo userInfo = userInfoService.getByUsername(principal.getName());
-                userInfo.setNickname(data);
-                userInfoService.updateById(userInfo);
-                return Result.success(userInfoService.getByUsername(principal.getName()).getNickname());
-            } else {
-                return Result.fail("存在相同的昵称");
-            }
-
-
+        UserInfo existence = userInfoService.getByNickname(data);
+        System.out.println("ex" + existence);
+        if (ObjectUtils.isNull(existence)) {
+            UserInfo userInfo = userInfoService.getByUsername(principal.getName());
+            userInfo.setNickname(data);
+            userInfoService.updateById(userInfo);
+            return Result.success(userInfoService.getByUsername(principal.getName()).getNickname());
+        } else {
+            return Result.fail("存在相同的昵称");
         }
 
-    @PreAuthorize("hasAuthority('user:update')")
+
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_admin','ROLE_normal')")
     @PostMapping("/updateUserIntroduction")
-    public Result updateUserIntroduction(@RequestBody String data,Principal principal) {
+    public Result updateUserIntroduction(@RequestBody String data, Principal principal) {
 
         System.out.println(data);
         UserInfo userInfo = userInfoService.getByUsername(principal.getName());
@@ -242,7 +244,7 @@ public class UserInfoController extends BaseController {
     //获取随机用户，通过积分排序，用于用户推荐
     @GetMapping("/getRandomUsers")
     public Result getRandomUsers(@RequestParam(value = "current", defaultValue = "1") Integer current,
-                                 @RequestParam(value = "size", defaultValue = "5") Integer size){
+                                 @RequestParam(value = "size", defaultValue = "5") Integer size) {
         Page<UserInfo> userInfoPage = userInfoMapper.selectUserOrderByScore(new Page<>(current, size));
         return Result.success(userInfoPage);
     }

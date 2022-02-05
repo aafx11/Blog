@@ -125,3 +125,12 @@ export const deleteArticleByIds=(data) => {
         data,
     })
 }
+
+// 更新文章信息
+export const update =(data) => {
+    return service({
+        url:"/article/update",
+        method:'post',
+        data:data
+    })
+}

@@ -1,5 +1,5 @@
 <template>
-
+  <div>
     <router-link :to="{path:'/welcome',query:{title:'首页'}}" @click="selectMenu(itemIndex)">
       <div class="index-txt">首页</div>
     </router-link>

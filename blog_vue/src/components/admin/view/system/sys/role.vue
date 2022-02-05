@@ -14,15 +14,16 @@
     </el-form-item>
     <el-form-item>
       <!--      <el-button type="primary" @click="dialogVisible = true">添加角色</el-button>-->
-      <my-button type="primary" @click="dialogVisible = true">添加角色</my-button>
+      <my-button type="primary" @click="dialogVisible = true" v-if="isAuth('role:save')">添加角色</my-button>
     </el-form-item>
     <el-form-item>
       <el-popconfirm
           title="确定要批量删除吗？"
           @confirm="deleteHandle(null)"
+          v-if="isAuth('role:delete')"
       >
         <template #reference>
-          <my-button type="danger" :disabled="btnState">批量删除</my-button>
+          <my-button type="danger" :disabled="btnState"  >批量删除</my-button>
         </template>
       </el-popconfirm>
     </el-form-item>
@@ -52,19 +53,19 @@
       <template #default="scope">
         <div class="control-container">
         <!--        <el-button type="text" @click="permHandle(scope.row.id)">分配权限</el-button>-->
-        <my-button type="primary" size="mini" @click="permHandle(scope.row.id)">分配权限</my-button>
+        <my-button type="primary" size="mini" @click="permHandle(scope.row.id)" >分配权限</my-button>
 
 <!--        <el-divider direction="vertical"></el-divider>-->
         <!--        <el-button type="text" @click="editHandle(scope.row.id)">编辑</el-button>-->
-        <my-button type="primary" size="mini" @click="editHandle(scope.row.id)" letter-spacing>编辑</my-button>
+        <my-button type="primary" size="mini" @click="editHandle(scope.row.id)" letter-spacing v-if="isAuth('role:update')">编辑</my-button>
 <!--        <el-divider direction="vertical"></el-divider>-->
         <el-popconfirm
             title="确定删除吗？"
             @confirm="deleteHandle(scope.row.id)"
-
+            v-if="isAuth('role:delete')"
         >
           <template #reference>
-            <my-button type="danger" size="mini" letter-spacing>删除</my-button>
+            <my-button type="danger" size="mini" letter-spacing >删除</my-button>
           </template>
         </el-popconfirm>
         </div>
@@ -136,7 +137,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="resetpeForm('peForm')">取 消</el-button>
-      <el-button type="primary" @click="submitPermForm('peForm')">确 定</el-button>
+      <el-button type="primary" @click="submitPermForm('peForm')" v-if="isAuth('role:perm')">确 定</el-button>
     </div>
   </el-dialog>
 
@@ -338,6 +339,18 @@ export default {
       })
     };
 
+    const store = useStore()
+
+    const isAuth = (perm) => {
+      // return hasAuth(data);
+      const authority = store.state.menus.permList
+      if (authority.indexOf(perm) > -1){
+        return true
+      } else {
+        return false
+      }
+    }
+
     onMounted(() => {
       getRoleList();
       MenuList().then(res => {
@@ -357,6 +370,7 @@ export default {
       permForm,
       permTreeData,
       checkStrictly,
+      isAuth,
       // hasAuth,
       deleteHandle,
       editHandle,

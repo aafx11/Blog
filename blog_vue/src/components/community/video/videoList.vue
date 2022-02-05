@@ -2,7 +2,7 @@
   <div class="videoList-box" v-for="(item,index) in videoList">
     <router-link :to="{name:'videoDetail',params:{id:item.id}}">
       <div class="video-cover">
-        <img :src="'http://localhost:8081/static/videoCover/'+item.coverUrl" alt="">
+        <img :src="'http://localhost:8081/static/videoCover/'+item.coverUrl" alt="" class="video-img">
       </div>
     </router-link>
     <div class="video-info">
@@ -39,7 +39,15 @@
             <router-link :to="{name:'editVideo',params:{id:item.id}}" class="edit-button">
               <div><EditOutlined />编辑</div>
             </router-link>
-              <div class="delete-button"><DeleteOutlined />删除</div>
+            <el-popconfirm
+                title="确定删除吗？"
+                @confirm="deleteVideo(item.id)"
+
+            >
+              <template #reference>
+                <div class="delete-button"><DeleteOutlined />删除</div>
+              </template>
+            </el-popconfirm>
           </div>
         </div>
         <div class="bottom-icon">
@@ -61,7 +69,8 @@
 <script>
 import {getCurrentInstance, onMounted} from "vue";
 import {HourglassOutlined,ExclamationCircleOutlined,EditOutlined,DeleteOutlined} from '@ant-design/icons-vue';
-
+import {deleteVideoByVideoId} from '../../../request/api/video.js'
+import {message}  from "ant-design-vue";
 export default {
   name: "videoList",
   components:{
@@ -76,12 +85,28 @@ export default {
       default: null
     }
   },
-  setup() {
+  setup(props,ctx) {
     const {proxy} = getCurrentInstance();
+
+    const deleteVideo = (id) => {
+      let ids = []
+      ids.push(id)
+      deleteVideoByVideoId(ids).then(res=>{
+        console.log(res);
+        if (res.data.code == 200){
+          message.success('删除成功')
+          ctx.emit('update')
+        }
+      })
+    }
 
     onMounted(() => {
       console.log(proxy.videoList);
     })
+
+    return{
+      deleteVideo
+    }
   }
 }
 </script>
@@ -186,5 +211,8 @@ a {
 }
 .edit-button:hover,.edit-button + div:hover{
   border: 1px solid #00a1d6;
+}
+.video-img{
+  object-fit: cover;
 }
 </style>

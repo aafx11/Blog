@@ -1,16 +1,25 @@
 <template>
-  <a-input v-model:value="article.title" placeholder="请输入文章标题"></a-input>
-  <a-input v-model:value="article.introduction" placeholder="请输入文章简介，用于封面介绍"></a-input>
-  <div>
-    <a-upload
-        v-model:file-list="fileList"
-        :customRequest="uploadCover"
-        @change="handleChange"
-    >
-      <a-button>
-        选择文章封面
-      </a-button>
-    </a-upload>
+  <div class="title-wrapper">
+    <div class="input-wrapper">
+
+      <a-input v-model:value="article.title" placeholder="请输入文章标题" class="title"></a-input>
+      <a-input v-model:value="article.introduction" placeholder="请输入文章简介，用于封面介绍" class="title"></a-input>
+    </div>
+    <div class="upload-wrapper">
+      <img :src="'http://localhost:8081/static/articleCover/'+article.cover" alt="" v-if="article.cover"
+           class="upload-img"/>
+      <div v-else class="upload-img">请选择封面</div>
+      <a-upload
+          v-model:file-list="fileList"
+          :customRequest="uploadCover"
+          @change="handleChange"
+          :showUploadList="false"
+      >
+        <div class="select-button">
+          选择文章封面
+        </div>
+      </a-upload>
+    </div>
   </div>
   <v-md-editor
       v-model="article.content"
@@ -21,33 +30,37 @@
 
   </v-md-editor>
 
-  <span>给你的文章创建标签：</span>
-  <template v-for="(tag, index) in article.tags" :key="index">
-    <a-tooltip v-if="tag.length > 20" :title="tag">
-      <a-tag :key="tag" :closable="index !== 0" @close="handleClose(tag)">
-        {{ `${tag.slice(0, 20)}...` }}
+  <div class="bottom-container">
+    <div class="tag-wrapper">
+      <span>给你的文章创建标签：</span>
+      <template v-for="(tag, index) in article.tags" :key="index">
+        <a-tooltip v-if="tag.length > 20" :title="tag">
+          <a-tag :key="tag" :closable="index !== 0" @close="handleClose(tag)">
+            {{ `${tag.slice(0, 20)}...` }}
+          </a-tag>
+        </a-tooltip>
+        <a-tag v-else :closable="index !== 0" @close="handleClose(tag)">
+          {{ tag }}
+        </a-tag>
+      </template>
+      <a-input
+          v-if="inputVisible"
+          ref="inputRef"
+          type="text"
+          size="small"
+          :style="{ width: '78px' }"
+          v-model:value="inputValue"
+          @blur="handleInputConfirm"
+          @keyup.enter="handleInputConfirm"
+      />
+      <a-tag v-else @click="showInput" style="background: #fff; border-style: dashed">
+        <plus-outlined/>
+        点击创建新的标签
       </a-tag>
-    </a-tooltip>
-    <a-tag v-else :closable="index !== 0" @close="handleClose(tag)">
-      {{ tag }}
-    </a-tag>
-  </template>
-  <a-input
-      v-if="inputVisible"
-      ref="inputRef"
-      type="text"
-      size="small"
-      :style="{ width: '78px' }"
-      v-model:value="inputValue"
-      @blur="handleInputConfirm"
-      @keyup.enter="handleInputConfirm"
-  />
-  <a-tag v-else @click="showInput" style="background: #fff; border-style: dashed">
-    <plus-outlined/>
-    点击创建新的标签
-  </a-tag>
-
-  <a-button @click="submitArticle">发表文章</a-button>
+    </div>
+    <!--  <a-button @click="submitArticle">发表文章</a-button>-->
+    <div class="select-button" @click="submitArticle">发布文章</div>
+  </div>
 </template>
 
 <script>
@@ -55,7 +68,7 @@ import {defineComponent, ref, reactive, toRefs, nextTick, getCurrentInstance} fr
 import {useRouter} from "vue-router"
 import {PlusOutlined} from '@ant-design/icons-vue';
 import {editArticle} from '../../../request/api/article.js'
-import {upload,uploadArticleImgToLocal,uploadArticleCoverToLocal} from '../../../request/api/common.js'
+import {upload, uploadArticleImgToLocal, uploadArticleCoverToLocal} from '../../../request/api/common.js'
 import {message} from "ant-design-vue";
 
 export default defineComponent({
@@ -74,25 +87,21 @@ export default defineComponent({
       const formData = new FormData();
       formData.append("img", files[0])
 
-      uploadArticleImgToLocal(formData).then(res=>{
-        if (res.data.code == 200){
-              console.log("文章图片",res);
-              const imgUrl = res.data.data
-              insertImage({
-                url:  "http://localhost:8081/static/articleImage/"+imgUrl,
-                desc: '',
-                width: '450',
-                height: '470',
-              })
-              message.success(res.data.msg)
+      uploadArticleImgToLocal(formData).then(res => {
+        if (res.data.code == 200) {
+          console.log("文章图片", res);
+          const imgUrl = res.data.data
+          insertImage({
+            url: "http://localhost:8081/static/articleImage/" + imgUrl,
+            desc: '',
+            width: '450',
+            height: '470',
+          })
+          message.success(res.data.msg)
         } else {
           message.warn(res.data.msg)
         }
       })
-
-
-
-
 
 
       //上传七牛云
@@ -184,15 +193,15 @@ export default defineComponent({
       const formData = new FormData();
       formData.append("image", data.file)
 
-      uploadArticleCoverToLocal(formData).then(res=>{
+      uploadArticleCoverToLocal(formData).then(res => {
         if (res.data.code == 200) {
-              article.cover = res.data.data
-              console.log("封面地址",article.cover);
-              message.success(res.data.msg)
+          article.cover = res.data.data
+          console.log("封面地址", article.cover);
+          message.success(res.data.msg)
 
-            } else {
-              message.warn(res.data.msg)
-            }
+        } else {
+          message.warn(res.data.msg)
+        }
       })
 
 
@@ -223,6 +232,46 @@ export default defineComponent({
 
     //发布文章
     const submitArticle = () => {
+      console.log(article.title);
+      if (article.title.length == 0) {
+        message.info('请输入文章标题')
+        return
+      }
+      if (article.title.length > 20){
+        message.info('文章标题字数最大为20')
+        return
+      }
+
+      if (article.title.indexOf(" ") > -1){
+        message.info('文章标题不能含有空格')
+        return;
+      }
+
+      if (article.introduction.length == 0){
+        message.info('请输入文章简介')
+        return;
+      }
+
+      if (article.introduction.length > 100){
+        message.info('文章简介最大字数为100')
+        return;
+      }
+
+      if (article.cover.length == 0){
+        message.info('请上传文章封面')
+        return;
+      }
+
+      if (article.content.length == 0){
+        message.info('请输入文章正文内容')
+        return;
+      }
+
+      if (article.tags.length == 0){
+        message.info('请输入文章标签')
+        return;
+      }
+
       editArticle(proxy.article).then(res => {
         console.log("返回的数据", res);
         setTimeout(() => {
@@ -264,5 +313,62 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.title-wrapper {
+  display: flex;
+}
 
+.title {
+  height: 40px;
+  width: 100%;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.input-wrapper, .upload-wrapper {
+  flex: 1;
+}
+
+.select-button {
+  height: 40px;
+  width: 110px;
+  color: #FFFFFF;
+  background-color: #388eff;
+  border: 1px solid rgb(29, 125, 250);
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.select-button:hover {
+  opacity: 0.9;
+}
+
+.bottom-container {
+  width: 100%;
+  margin-top: 8px;
+  padding: 0 15px;
+  display: flex;
+}
+
+.tag-wrapper {
+  flex: 1;
+}
+
+.upload-wrapper {
+  display: flex;
+  align-items: flex-end;
+}
+
+.upload-img {
+  height: 100px;
+  width: 120px;
+  border: 1px solid rgb(134, 144, 156);
+  margin: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+}
 </style>

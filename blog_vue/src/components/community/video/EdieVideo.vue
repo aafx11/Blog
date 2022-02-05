@@ -42,7 +42,7 @@
           </div>
           <div class="item-title"><span style="color: red">*</span>审核评语</div>
           <div>
-            <el-input type="textarea" :rows="5" v-model="videoInfo.examine"
+            <el-input type="textarea" :rows="6" v-model="videoInfo.examine"
                       minlength="1" maxlength="100" placeholder="请输入审核评语"
                       class="input-style" resize="none">
             </el-input>
@@ -64,9 +64,9 @@
               <div id="cover-button">重新选择视频封面</div>
             </a-upload>
             <div>
-              <a-image :src="'http://localhost:8081/static/videoCover/'+videoDetailData.coverUrl"
-                       alt="加载失败" :width="360" :height="180"/>
-<!--              <img :src="'http://47.113.204.103:8081/static/videoCover'+videoDetailData.coverUrl" alt=""  alt="加载失败" :width="360" :height="180"/>-->
+<!--              <a-image :src="'http://localhost:8081/static/videoCover/'+videoDetailData.coverUrl"-->
+<!--                       alt="加载失败" :width="360" :height="180"/>-->
+              <img :src="'http://localhost:8081/static/videoCover/'+videoDetailData.coverUrl"  alt="加载失败" class="video-img"/>
             </div>
           </div>
         </div>
@@ -325,7 +325,7 @@ export default {
 }
 
 .container-video-box {
-  height: 400px;
+  height: 360px;
 }
 
 .container-video-left {
@@ -408,7 +408,7 @@ export default {
 .info-title {
   font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 .item-title {
@@ -427,8 +427,13 @@ export default {
   margin-left: 15%;
 }
 .examine-button button{
-  margin-top: 5px;
+  margin-top: 15px;
   float: right;
   border-radius: 5px;
+}
+.video-img{
+  width: 360px;
+  height: 270px;
+  object-fit: cover;
 }
 </style>

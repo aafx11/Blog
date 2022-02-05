@@ -74,6 +74,9 @@ service.interceptors.response.use(
         if(error.response.data){
             // error.massage = error.response.data.msg;
             console.log("错误",error.response);
+            if (error.response.data.msg){
+                message.info(error.response.data.msg)
+            }
         }
 
 

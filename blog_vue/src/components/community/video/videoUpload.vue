@@ -25,7 +25,7 @@
           </template>
         </el-upload>
       </div>
-      <div>
+      <div class="video-wrapper">
         <span class="title">视频预览</span>
 
         <video
@@ -56,6 +56,7 @@
             action=""
             drag
             class="cover-upload"
+            :show-file-list="false"
         >
           <div class="img-preview">
             <div v-if="coverSrc == ''">选择视频的封面</div>
@@ -111,7 +112,8 @@
           </a-tag>
         </div>
       </div>
-      <el-button @click="submitUpload">上传</el-button>
+<!--      <el-button @click="submitUpload">上传</el-button>-->
+        <my-button type="primary" @click="submitUpload">上传</my-button>
     </div>
 
   </div>
@@ -126,6 +128,7 @@ import {ElMessage} from 'element-plus';
 import {videoUpload} from '../../../request/api/common.js'
 import {PlusOutlined} from '@ant-design/icons-vue';
 import {isImg,isVideo} from '../../../assets/js/upload.js'
+import myButton from '../../../view/myButton.vue'
 
 export default {
   name: "videoUpload",
@@ -133,6 +136,7 @@ export default {
   //   activeIndex:Number
   // },
   components: {
+    myButton,
     PlusOutlined,
   },
   setup(props, context) {
@@ -205,22 +209,8 @@ export default {
 
     const submitFile = () => {
       console.log("需要上传的图片", proxy.objectCover);
-      if (title.value.split(" ").join("").length == 0) {
-        ElMessage.info("请输入视频标题");
-        return;
-      }
-      if (introduction.value.split(" ").join("").length == 0) {
-        ElMessage.info("请输入视频简介");
-        return;
-      }
-      //判断图片大小和格式
-      if (!isImg(proxy.objectCover)) {
-        return;
-      }
-      //判断视频大小和格式
-      if (!isVideo(proxy.objectFile)) {
-        return;
-      }
+
+
 
       //封装文件
       let formData = new FormData();
@@ -254,6 +244,29 @@ export default {
     }
 
     const submitUpload = () => {
+      if (title.value.split(" ").join("").length == 0) {
+        ElMessage.info("请输入视频标题");
+        return;
+      }
+      if (introduction.value.split(" ").join("").length == 0) {
+        ElMessage.info("请输入视频简介");
+        return;
+      }
+
+      if (video.tags.length == 0){
+        ElMessage.info('视频标签不能为空')
+        return;
+      }
+
+      //判断图片大小和格式
+      if (!isImg(proxy.objectCover)) {
+        return;
+      }
+      //判断视频大小和格式
+      if (!isVideo(proxy.objectFile)) {
+        return;
+      }
+
       proxy.$refs.uploadVideo.submit();
     }
 
@@ -298,13 +311,13 @@ export default {
 
 .video {
   width: 400px;
-  height: 300px;
+  height: 210px;
 }
 
 .title {
   font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   display: inline-block;
 }
 
@@ -314,7 +327,7 @@ export default {
   justify-content: center;
   align-items: center;
   width: 400px;
-  height: 270px;
+  height: 210px;
   font-size: 1rem;
   border: 1px solid black;
 }
@@ -322,9 +335,12 @@ export default {
 .progress {
   width: 400px;
 }
-
+.video-wrapper{
+  display: flex;
+  flex-direction: column;
+}
 .info-box {
-  margin-top: 25px;
+  margin-top: 15px;
 }
 
 .cover-upload {
@@ -349,6 +365,7 @@ export default {
 .cover {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .input-style {

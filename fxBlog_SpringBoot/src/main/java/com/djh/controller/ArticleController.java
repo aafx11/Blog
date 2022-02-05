@@ -2,6 +2,7 @@ package com.djh.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.djh.common.DTO.ArticleDto;
 import com.djh.common.lang.Result;
@@ -307,5 +308,20 @@ public class ArticleController extends BaseController {
             articleVO.setCollects(collectCount);
         });
         return Result.success(list);
+    }
+
+    // 更新文章信息
+    @PreAuthorize("hasAuthority('article:edit')")
+    @PostMapping("/update")
+    public Result update(@RequestBody ArticleDto articleDto){
+        System.out.println("文章"+ articleDto);
+
+        articleService.update(new UpdateWrapper<Article>().eq("id",articleDto.getId())
+                .set("title",articleDto.getTitle())
+                .set("content",articleDto.getContent())
+                .set("introduction",articleDto.getIntroduction())
+                .set("cover",articleDto.getCover())
+        );
+        return Result.success("修改成功");
     }
 }

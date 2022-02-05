@@ -3,7 +3,7 @@
     <div class="chat-box">
       <div class="left-box">
         <div class="header">
-          <a-avatar :src="userInfo.avatar" :size="58"></a-avatar>
+          <a-avatar :src="'http://localhost:8081/static/avatar/'+userInfo.avatar" :size="58"></a-avatar>
           <span>{{ userInfo.nickname }}</span>
         </div>
         <div class="sessionList-box">
@@ -12,9 +12,9 @@
             <div v-for="(item,index) in SessionListAlreadyData" tabindex="1" class="current-session-item">
               <div @click="startSession(item.id,item.nickname)">
                 <a-badge :count="item.unReadCount">
-                  <a-avatar :src="'http://localhost:8081/static/avatar/'+item.avatar" :size="46"></a-avatar>
+<!--                  <a-avatar :src="'http://localhost:8081/static/avatar/'+item.avatar" :size="46"></a-avatar>-->
 <!--                  <a-avatar :src="'http://47.113.204.103:8081/static/avatar/'+item.avatar" :size="46"></a-avatar>-->
-
+                  <img :src="'http://localhost:8081/static/avatar/'+item.avatar" class="avatar-img">
                 </a-badge>
               </div>
               <div class="info-box" @click="startSession(item.id,item.nickname)">
@@ -127,6 +127,7 @@ export default {
     //接受到服务端推送的消息后触发
     websocketOnmessage(e) {
 
+      // 客户端有两种情况，接收到message和接收到更新队列
       let data = JSON.parse(e.data);
       if (data instanceof Array) {
         console.log("收到消息的时候", data);
@@ -445,18 +446,22 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-
+  justify-content: space-around;
+  border-bottom: 1px solid rgb(229, 230, 235);
 }
+
 
 .follow-list-item {
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 5px 0px 5px 10px;
 }
 
 .follow-list-item:hover ,.follow-list-item:hover .info-box span{
-  background-color: rgb(75, 79, 88);
-  color: white;
+  /*background-color: rgb(75, 79, 88);*/
+  background-color: #fafafa;
+  /*color: white;*/
 }
 
 .follow-list-item:focus,.follow-list-item:focus .info-box span {
@@ -465,13 +470,16 @@ export default {
 }
 
 .current-session-item:hover,.current-session-item:hover .info-box span{
-  background-color: rgb(75, 79, 88);
-  color: white;
+  /*background-color: rgb(75, 79, 88);*/
+  /*color: white;*/
+  background-color: #fafafa;
+
 }
 
 .current-session-item:focus,.current-session-item:focus .info-box span {
-  background-color: rgb(75, 79, 88);
-  color: white;
+  /*background-color: rgb(75, 79, 88);*/
+  /*color: white;*/
+  background-color: #e3e2e2;
 }
 
 /*left-box------------------------------end*/
@@ -527,9 +535,11 @@ export default {
   width: 100%;
   height: 80%;
   background-color: rgb(245, 245, 245);
+  border: 1px solid #6a737d;
 }
 
 .sendMessage-box {
+  position: relative;
   width: 100%;
   height: 20%;
   background-color: rgb(255, 255, 255);
@@ -537,7 +547,9 @@ export default {
 }
 
 .sendMessage-box button {
-  float: right;
+  position: absolute;
+  right: 0;
+  bottom: 0;
   background-color: rgb(245, 245, 245);
   width: 70px;
   border: 1px solid gray;
@@ -571,7 +583,7 @@ export default {
 
 .message-text {
   resize: none;
-  height: 80%;
+  height: 100%;
 }
 
 .message-right {
@@ -618,4 +630,13 @@ export default {
 
 /*right-box------------------------------end*/
 
+.header span{
+  font-size: 18px;
+}
+.avatar-img{
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 </style>

@@ -315,4 +315,16 @@ export default {
     }
   }
 }
+.search {
+  display: flex;
+  background-color: #fff;
+}
+
+.search input {
+  width: 50%;
+  border-right: 0px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+}
 </style>

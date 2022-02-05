@@ -2,11 +2,11 @@
   <div class="login-container">
     <div class="form-container">
       <div class="form">
-        <el-form ref="formRef" :model="form">
-          <el-form-item label="账号" required>
+        <el-form ref="formRef" :model="form"  :rules="rules">
+          <el-form-item label="账号" required prop="username">
             <el-input v-model="form.username"></el-input>
           </el-form-item>
-          <el-form-item label="密码" required>
+          <el-form-item label="密码" required prop="password">
             <el-input v-model="form.password" type="password"></el-input>
           </el-form-item>
           <el-form-item label="验证码" required class="code-container">
@@ -80,58 +80,90 @@ export default {
       })
     }
 
+    const formRef = ref()
+
     // 登录
     const submitLoginForm = () => {
-      if (form.code.length != 5) {
-        message.warn("请输入正确的验证码");
-        getCodeUrl();
-        return;
-      }
-      login(form).then(res => {
-        let jwt = ''
-        jwt = res.headers['authorization']
-        store.commit('setToken', jwt)
-        return res.data.msg
-        // router.push('/myHomePage')
-      }, reason => {
-        getCodeUrl();
-      }).then(success => {
-        console.log(success);
-        if (success === '登录成功') {
-          getOneUserInfo().then(user => {
+      formRef.value.validate(res=>{
+        if (!res){
+          console.log('不通过');
+          return;
+        }else {
+          if (form.code.length != 5) {
+            message.warn("请输入正确的验证码");
+            getCodeUrl();
+            return;
+          }
+          login(form).then(res => {
+            let jwt = ''
+            jwt = res.headers['authorization']
+            store.commit('setToken', jwt)
+            return res.data.msg
+            // router.push('/myHomePage')
+          }, reason => {
+            getCodeUrl();
+          }).then(success => {
+            console.log(success);
+            if (success === '登录成功') {
+              getOneUserInfo().then(user => {
 
-            getUserInfoById(user.data.data.id).then(role => {
+                getUserInfoById(user.data.data.id).then(role => {
 
-              let data = role.data.data;
-              if (data.state != 1) {
-                message.warn("该账号已被封禁");
-                logout()
-              }
-              let admin = data.roles.some((item) => {
-                console.log(item.roleName);
-                return item.roleName === "超级管理员"
+                  let data = role.data.data;
+                  if (data.state != 1) {
+                    message.warn("该账号已被封禁");
+                    logout()
+                  }
+                  let admin = data.roles.some((item) => {
+                    console.log(item.roleName);
+                    return item.roleName === "超级管理员"
+                  })
+                  if (admin) {
+                    router.push('/welcome')
+                    return;
+                  }
+
+                  let normal = data.roles.some((item) => {
+                    return item.roleName === "普通用户"
+                  })
+                  if (normal) {
+                    router.push('/index')
+                    return;
+                  }
+                })
               })
-              if (admin) {
-                router.push('/welcome')
-                return;
-              }
-
-              let normal = data.roles.some((item) => {
-                return item.roleName === "普通用户"
-              })
-              if (normal) {
-                router.push('/index')
-                return;
-              }
-            })
+            }
           })
         }
       })
+
+
     }
+
+    const rules = reactive({
+      username: [
+        {
+          required: true,
+          message: '账号不能为空',
+          trigger: 'blur',
+        }
+
+      ],
+      password: [
+        {
+          required: true,
+          message: '密码不能为空',
+          trigger: 'blur',
+        }
+
+      ],
+    })
 
     return {
       form,
       codeUrl,
+      rules,
+      formRef,
       getCodeUrl,
       reset,
       submitLoginForm

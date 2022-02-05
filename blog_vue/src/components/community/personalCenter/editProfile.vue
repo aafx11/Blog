@@ -1,7 +1,7 @@
 <template>
   <div class="container-box">
-    <span>账号信息设置</span>
-    <div>
+    <div class="title">个人资料设置</div>
+    <div class="avatar-container">
       <a-avatar
           :src="'http://localhost:8081/static/avatar/'+oldUser.avatar"
           :size="{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }">
@@ -10,19 +10,21 @@
 <!--          :src="'http://47.113.204.103:8081/static/avatar/'+oldUser.avatar"-->
 <!--          :size="{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }">-->
 <!--      </a-avatar>-->
-    </div>
-    <div>
-      <a-upload
-          v-model:file-list="fileList"
-          :customRequest="uploadAvatar"
-          @change="handleChange"
-      >
-        <a-button>
+      <div>
+        <a-upload
+            v-model:file-list="fileList"
+            :customRequest="uploadAvatar"
+            @change="handleChange"
+            :showUploadList="false"
+        >
 
-          更换头像
-        </a-button>
-      </a-upload>
+
+            <div class="txt">更换头像</div>
+
+        </a-upload>
+      </div>
     </div>
+
     <div>
       <a-form
           :model="NewUser"
@@ -308,6 +310,25 @@ export default {
   width: 100%;
   height: 100%;
   background-color: #fff;
+}
+.container-box .title{
+  padding: 7px 7px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.avatar-container{
+  display: flex;
+  flex-direction: column;
+  /*justify-content: center;*/
+  align-items: center;
+
+}
+.txt{
+  font-size: 14px;
+  padding: 0px 7px;
+  border: 1px solid black;
+  margin:5px 0px 10px 0px;
+  cursor: pointer;
 }
 /*表单*/
 .form {

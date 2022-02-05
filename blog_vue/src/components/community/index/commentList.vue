@@ -31,7 +31,7 @@
 
         </div>
         <div class="comment-content-box">
-          <div v-text="item.content"
+          <div v-text="item.state == 1 ?item.content : '该条评论已被封禁'"
                class="comment-content"
           >
 

@@ -58,11 +58,12 @@
     </el-table-column>
     <el-table-column label="文章封面" width="140">
       <template #default="scope">
-        <el-image
-            style="width: 100px; height: 100px"
-            :src="'http://localhost:8081/static/articleCover/'+scope.row.cover"
-        >
-        </el-image>
+<!--        <el-image-->
+<!--            style="width: 115px; height: 100px"-->
+<!--            :src="'http://localhost:8081/static/articleCover/'+scope.row.cover"-->
+<!--        >-->
+<!--        </el-image>-->
+        <img :src="'http://localhost:8081/static/articleCover/'+scope.row.cover" alt="加载失败" class="cover-img">
       </template>
     </el-table-column>
     <el-table-column label="文章内容" width="140">
@@ -88,23 +89,27 @@
         <div class="iconfont icon-riqi1 icon-style">{{ scope.row.created }}</div>
       </template>
     </el-table-column>
-    <el-table-column label="操作">
+    <el-table-column label="操作" fixed="right" width="145">
       <template #default="scope">
-        <el-popconfirm
-            title="确定删除吗？"
-            @confirm="deleteHandle(scope.row.id)"
+        <div class="control-container">
+          <my-button type="success" size="mini" letter-spacing @click="pushToEdit(scope.row.id)">编辑</my-button>
+          <el-popconfirm
+              title="确定删除吗？"
+              @confirm="deleteHandle(scope.row.id)"
 
-        >
-          <template #reference>
-            <div class="control-container">
-              <my-button type="danger" letter-spacing>删除</my-button>
-            </div>
-          </template>
-        </el-popconfirm>
+          >
+            <template #reference>
+              <div class="control-container">
+                <my-button type="danger" size="mini" letter-spacing v-if="isAuth('article:delete')"
+                >删除</my-button>
+              </div>
+            </template>
+          </el-popconfirm>
+        </div>
       </template>
     </el-table-column>
   </el-table>
-<!--  <el-button type="danger">删除</el-button>-->
+  <!--  <el-button type="danger">删除</el-button>-->
   <!--分页-->
   <div class="bottom-container">
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="current"
@@ -118,7 +123,8 @@ import {articleLists, deleteArticleByIds, ArticleListByLikeSearch} from '../../.
 import {ref, reactive, getCurrentInstance, onMounted} from 'vue'
 import {ElMessageBox, ElMessage} from 'element-plus';
 import myButton from "../../../../../view/myButton.vue";
-
+import {useRoute, useRouter} from "vue-router";
+import {useStore} from "vuex";
 export default {
   name: "articleList",
   components: {
@@ -126,6 +132,7 @@ export default {
   },
   setup() {
     const {proxy} = getCurrentInstance();
+    const router  = useRouter()
     const showArticleList = ref(false);
     const size = ref(10);
     const current = ref(1);
@@ -211,7 +218,22 @@ export default {
       })
     }
 
+    // 跳转至文章编辑页面点击事件
+    const pushToEdit = (id) => {
+      console.log(id);
+      router.push({name:'modifyArticle',params:{id:id}})
+    }
 
+    const store = useStore()
+    const isAuth = (perm) => {
+      // return hasAuth(data);
+      const authority = store.state.menus.permList
+      if (authority.indexOf(perm) > -1) {
+        return true
+      } else {
+        return false
+      }
+    }
     onMounted(() => {
       getArticleListData();
     })
@@ -228,6 +250,8 @@ export default {
       searchArticleListData,
       getArticleListData,
       deleteHandle,
+      pushToEdit,
+      isAuth,
       handleSelectionChange,
     }
   }
@@ -274,13 +298,25 @@ export default {
   justify-content: space-around;
   align-items: center;
 }
-.link-box{
+
+.link-box {
   display: flex;
   justify-content: center;
 }
-.bottom-container{
+
+.bottom-container {
   display: flex;
   justify-content: flex-end;
   padding: 10px 10px;
+}
+
+.control-container {
+  display: flex;
+
+}
+.cover-img{
+  height: 100px;
+  width: 115px;
+  object-fit: cover;
 }
 </style>

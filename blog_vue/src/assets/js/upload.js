@@ -11,6 +11,12 @@ import {ElMessage} from 'element-plus';
  1.判断图片格式和大小  Js Code Starts Here
  -------------------------- */
 export const isImg = (img) => {
+    console.log('触发',img);
+    // if (img.toString()){
+    //     ElMessage.error('视频封面不能为空');
+    //     return false;
+    // }
+
     let types = ['image/jpeg', 'image/jpg', 'image/gif', 'image/bmp', 'image/png'];
     const isImage = types.includes(img.type);
     const isLtSize = img.size / 1024 / 1024 < 5;

@@ -12,6 +12,7 @@
   <!--    </template>-->
   <!--  </a-list>-->
   <div class="attention-container">
+    <div class="title">我的粉丝</div>
     <div class="user-list" v-if="userProfile">
       <div class="user-item" @click="pushUserPage(item.username,item.userId)" v-for="(item,index) in userProfile" >
         <UserCard :user-info="item" :mode="1"></UserCard>
@@ -124,5 +125,10 @@ export default defineComponent({
 }
 .pagination-box{
   float: right;
+}
+.title{
+  padding: 7px 7px;
+  font-size: 18px;
+  font-weight: 700;
 }
 </style>

@@ -10,13 +10,13 @@
     </el-form-item>
     <!--      <el-button type="primary" @click="dialogFormVisible = true" >添加</el-button>-->
     <el-form-item>
-      <my-button type="primary" @click="dialogFormVisible = true">添加</my-button>
+      <my-button type="primary" @click="dialogFormVisible = true" v-if="isAuth('user:save')">添加</my-button>
     </el-form-item>
     <el-form-item>
       <el-popconfirm
           title="确定删除吗？"
           @confirm="deleteHandle(null)"
-
+          v-if="isAuth('user:delete')"
       >
         <template #reference>
           <my-button type="danger" :disabled="delBtnState">批量删除</my-button>
@@ -66,15 +66,15 @@
         <!--        <el-button type="text" @click="resetPasswd(scope.row.id, scope.row.username)">-->
         <!--          重置密码-->
         <!--        </el-button>-->
-        <my-button type="success" size="mini" @click="resetPasswd(scope.row.id, scope.row.username)">重置密码</my-button>
+        <my-button type="success" size="mini" @click="resetPasswd(scope.row.id, scope.row.username)"    v-if="isAuth('user:respass')">重置密码</my-button>
         <el-divider direction="vertical"></el-divider>
         <el-popconfirm
             title="确定删除吗？"
             @confirm="deleteHandle(scope.row.id)"
-
+            v-if="isAuth('user:delete')"
         >
           <template #reference>
-            <my-button type="danger" size="mini" letter-spacing>删除</my-button>
+            <my-button type="danger" size="mini" letter-spacing >删除</my-button>
           </template>
         </el-popconfirm>
       </template>
@@ -160,7 +160,7 @@ import {
   getUserInfoById
 } from '../../../../../request/api/userList.js'
 import {roleList} from '../../../../../request/api/role.js'
-
+import {useStore} from "vuex";
 import service from "../../../../../request/http";
 
 
@@ -350,37 +350,49 @@ export default {
     //   return proxy.$globalFun.hasAuth();
     // }
 
-    onMounted(() => {
-      getUserList()
-      roleList().then(res => {
-        proxy.roleTreeData = res.data.data.records;
-      })
-    })
+    const store = useStore()
+    const isAuth = (perm) => {
+      // return hasAuth(data);
+      const authority = store.state.menus.permList
+      if (authority.indexOf(perm) > -1) {
+        return true
+      } else {
+        return false
+      }
+      }
 
-    return {
-      searchForm,
-      dialogFormVisible,
-      tableData,
-      delBtnState,
-      roleDialogFormVisible,
-      treeCheckedKeys,
-      size,
-      current,
-      total,
-      editFormRules,
-      roleForm,
-      roleTreeData,
-      deleteHandle,
-      handleSelectionChange,
-      // hasAuth,
-      getUserList,
-      resetPasswd,
-      edit,
-      handleCurrentChange,
-      handleSizeChange,
-      submitRoleForm,
+      onMounted(() => {
+        getUserList()
+        roleList().then(res => {
+          proxy.roleTreeData = res.data.data.records;
+        })
+      })
+
+      return {
+        searchForm,
+        dialogFormVisible,
+        tableData,
+        delBtnState,
+        roleDialogFormVisible,
+        treeCheckedKeys,
+        size,
+        current,
+        total,
+        editFormRules,
+        roleForm,
+        roleTreeData,
+        deleteHandle,
+        handleSelectionChange,
+        // hasAuth,
+        getUserList,
+        resetPasswd,
+        edit,
+        handleCurrentChange,
+        handleSizeChange,
+        submitRoleForm,
+        isAuth,
+      }
     }
-  }
 
 }
 

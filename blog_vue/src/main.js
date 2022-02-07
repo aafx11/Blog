@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import * as globalFun from './assets/js/global'
 import './assets/icon/iconfont.css'
+import './assets/icon/iconfont.js'
 //ElementPlus
 import ElementPlus from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';

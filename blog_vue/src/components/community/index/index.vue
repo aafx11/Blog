@@ -44,36 +44,62 @@
     <a-col :lg="{span:10}" :md="{span:18}" :xs="{span:24}" class="center">
       <router-view></router-view>
     </a-col>
-    <a-col :lg="{span:4}" :md="{span:0}" :xs="{span:0}" class="right">
+    <a-col :lg="{span:3}" :md="{span:0}" :xs="{span:0}" class="right">
       <!--用户简介-->
-      <ProfileCard
-          v-if="isAuth('hasLogin') && showUserInfo && showArticle"
-          ref="RefChild"
-          :userInfoData="userInfoData"
-          :articleListData="articleListData"
-      ></ProfileCard>
+<!--      <ProfileCard-->
+<!--          v-if="isAuth('hasLogin') && showUserInfo && showArticle"-->
+<!--          ref="RefChild"-->
+<!--          :userInfoData="userInfoData"-->
+<!--          :articleListData="articleListData"-->
+<!--      ></ProfileCard>-->
       <!--发布文章-->
-      <div
-          class="editArticle"
-          v-if="isAuth('hasLogin')"
-      >
-        <router-link to="/editArticle">
-          <a-button type="primary" shape="round" size="large" class="button-style">
-            <template #icon>
-              <EditOutlined/>
-              发表文章
-            </template>
-          </a-button>
-        </router-link>
-      </div>
+<!--      <div-->
+<!--          class="editArticle"-->
+<!--          v-if="isAuth('hasLogin')"-->
+<!--      >-->
+<!--        <router-link to="/editArticle">-->
+<!--          <a-button type="primary" shape="round" size="large" class="button-style">-->
+<!--            <template #icon>-->
+<!--              <EditOutlined/>-->
+<!--              发表文章-->
+<!--            </template>-->
+<!--          </a-button>-->
+<!--        </router-link>-->
+<!--      </div>-->
       <!--登录表单-->
       <login-form v-if="!isAuth('hasLogin')"></login-form>
       <!--推荐用户-->
-      <div class="random-user-box">
-        <div class="title">推荐用户</div>
-        <div class="user-list" v-if="showUser">
-          <div class="user-item" @click="pushUserPage(item.username,item.id)" v-for="(item,index) in userData">
-            <UserCard :user-info="item" :mode="1"></UserCard>
+<!--      <div class="random-user-box">-->
+<!--        <div class="title">推荐用户</div>-->
+<!--        <div class="user-list" v-if="showUser">-->
+<!--          <div class="user-item" @click="pushUserPage(item.username,item.id)" v-for="(item,index) in userData">-->
+<!--            <UserCard :user-info="item" :mode="1"></UserCard>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+      <!--作者榜-->
+      <div class="author-list">
+        <div class="list-header">
+          <svg class="title icon" aria-hidden="true" >
+            <use xlink:href="#icon-jiangbei"></use>
+          </svg>
+          <span class="title">作者榜</span>
+        </div>
+        <div class="list" v-if="showUser">
+          <div class="item" v-for="(item,index) in userData" @click="pushUserPage(item.username,item.id)">
+            <div class="item-img">
+              <img class="avatar" :src="'http://localhost:8081/static/avatar/'+item.avatar">
+            </div>
+            <div class="left-box">
+              <div class="left-nickname">
+                <div class="name">{{item.nickname}}</div>
+<!--                < div class="score-tag" v-if="item.score<200">Lv1</div>-->
+                <a-tag color="success" v-if="item.score<200" class="score-tag">Lv1</a-tag>
+                <a-tag color="processing" v-else class="score-tag">Lv2</a-tag>
+
+              </div>
+              <div class="left-briefintroduction">{{item.briefintroduction}}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -527,7 +553,6 @@ export default {
 }
 
 
-
 // 新布局
 //.main-container{
 //  position: relative;
@@ -570,4 +595,89 @@ export default {
 //    margin-left: 10px;
 //  }
 //}
+//作者榜单
+.author-list{
+  height: 390px;
+  width: 100%;
+  background-color: white;
+  .list-header{
+    padding: 0 10px;
+    border-bottom: 1px solid hsla(0,0%,59.2%,.1);;
+    display: flex;
+    align-items: center;
+  }
+  .list-header title{
+    font-size: 18px;
+  }
+  .list{
+    width: 100%;
+    height: 100%;
+
+    .item{
+      width: 100%;
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      
+      .item-img{
+        width: 40px;
+        height: 40px;
+      }
+
+       img{
+        object-fit: cover;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+
+       }
+
+      .left-box{
+        width: 80%;
+        padding-left: 5px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .left-nickname,.left-briefintroduction{
+          width: 100%;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          white-space:nowrap;
+        }
+        .left-nickname{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+
+          .name{
+            flex: 1;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .score-tag{
+          }
+        }
+        .left-briefintroduction{
+          color: #909090;
+        }
+      }
+    }
+
+    .item:hover{
+      background-color: #f6f6f6;
+    }
+
+  }
+}
+
+.icon {
+  width: 2em;
+  height: 2em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
 </style>

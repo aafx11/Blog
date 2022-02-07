@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3860878",
+      "name": "奖杯",
+      "font_class": "jiangbei",
+      "unicode": "e68e",
+      "unicode_decimal": 59022
+    },
+    {
+      "icon_id": "4533993",
+      "name": "头像",
+      "font_class": "touxiang-copy",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "16888595",
+      "name": "奖杯",
+      "font_class": "jiangbei1",
+      "unicode": "ec3c",
+      "unicode_decimal": 60476
+    },
+    {
+      "icon_id": "26394949",
+      "name": "冠军奖杯",
+      "font_class": "guanjunjiangbei",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "26527688",
+      "name": "奖杯，胜利，赢了，完成，比赛",
+      "font_class": "a-jiangbeishengliyinglewanchengbisai",
+      "unicode": "e6ea",
+      "unicode_decimal": 59114
+    },
+    {
       "icon_id": "1275",
       "name": "随机用户",
       "font_class": "suijiyonghu",

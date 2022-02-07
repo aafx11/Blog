@@ -1,21 +1,21 @@
 <template>
-<!--  <div class="wrapper">-->
-<!--    <my-magnifier-->
-<!--      link="link"-->
-<!--      :blank="blank"-->
-<!--      :imgUrl="imgUrl"-->
-<!--      :imgWidth="imgWidth"-->
-<!--      :imgHeight="imgHeight"-->
-<!--      :magWidth="magWidth"-->
-<!--      :magHeight="magHeight"-->
-<!--      imgAlt="测试"-->
-<!--      ref="test"-->
-<!--    >-->
+  <!--  <div class="wrapper">-->
+  <!--    <my-magnifier-->
+  <!--      link="link"-->
+  <!--      :blank="blank"-->
+  <!--      :imgUrl="imgUrl"-->
+  <!--      :imgWidth="imgWidth"-->
+  <!--      :imgHeight="imgHeight"-->
+  <!--      :magWidth="magWidth"-->
+  <!--      :magHeight="magHeight"-->
+  <!--      imgAlt="测试"-->
+  <!--      ref="test"-->
+  <!--    >-->
 
-<!--    </my-magnifier>-->
-    <router-view></router-view>
-<!--  </div>-->
-
+  <!--    </my-magnifier>-->
+  <router-view></router-view>
+  <!--  </div>-->
+  <div id="mode">123</div>
 
 </template>
 
@@ -30,8 +30,8 @@ import {
   ref,
   watch,
   onBeforeMount,
-    nextTick,
-    getTransitionRawChildren
+  nextTick,
+  getTransitionRawChildren
 } from 'vue';
 
 
@@ -39,24 +39,47 @@ export default {
   name: "test",
   setup() {
     const state = reactive({
-      imgUrl:'http://localhost:8081/static/videoCover/5f71b521-1903-404a-917f-cd3ec2a0ad1d.jpg',
-      link:"https://www.baidu.com",
-      blank:true,
-      imgWidth:375,
-      imgHeight:481,
-      magWidth:100,
-      magHeight:100
+      imgUrl: 'http://localhost:8081/static/videoCover/5f71b521-1903-404a-917f-cd3ec2a0ad1d.jpg',
+      link: "https://www.baidu.com",
+      blank: true,
+      imgWidth: 375,
+      imgHeight: 481,
+      magWidth: 100,
+      magHeight: 100
     })
 
 
-    let test = ()=>{
+    let test = () => {
+      let aa = document.getElementById('mode')
+      console.log(aa);
       console.log(123);
     }
 
+    onMounted(() => {
+      test()
+
+    })
     return {
       ...toRefs(state),
       test
     }
+  },
+  methods: {
+    ss() {
+      let aa = document.getElementById('mode')
+      console.log(aa);
+    }
+  },
+  beforeCreate() {
+
+  },
+  created() {
+  },
+  beforeMount() {
+
+  },
+  mounted() {
+
   }
 
 }
@@ -65,10 +88,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wrapper{
+.wrapper {
   margin: 100px auto;
 }
-.test-button:disabled{
+
+.test-button:disabled {
   width: 50px;
   height: 50px;
 }

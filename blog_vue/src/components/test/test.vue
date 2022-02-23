@@ -16,7 +16,12 @@
   <router-view></router-view>
   <!--  </div>-->
   <div id="mode">123</div>
-
+  <a-popover>
+    <template #content>
+      <div class="test">内容</div>
+    </template>
+    <button>123</button>
+  </a-popover>
 </template>
 
 <script>
@@ -54,10 +59,10 @@ export default {
       console.log(aa);
       console.log(123);
     }
-
+    const self = getCurrentInstance()
     onMounted(() => {
       test()
-
+      console.log('this1',self);
     })
     return {
       ...toRefs(state),
@@ -79,7 +84,7 @@ export default {
 
   },
   mounted() {
-
+    console.log('this2',this)
   }
 
 }
@@ -95,6 +100,9 @@ export default {
 .test-button:disabled {
   width: 50px;
   height: 50px;
+}
+.test{
+  background-color: red;
 }
 </style>
 

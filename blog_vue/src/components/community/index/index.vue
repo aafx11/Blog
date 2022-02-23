@@ -46,6 +46,9 @@
     </a-col>
     <a-col :lg="{span:3}" :md="{span:0}" :xs="{span:0}" class="right">
       <!--用户简介-->
+      <div class="panel-wrapper"  v-if="userInfo != null && isAuth('hasLogin')">
+        <userPanel :user-info="userInfo"></userPanel>
+      </div>
 <!--      <ProfileCard-->
 <!--          v-if="isAuth('hasLogin') && showUserInfo && showArticle"-->
 <!--          ref="RefChild"-->
@@ -130,6 +133,7 @@ import {getPersonalArticle} from '../../../request/api/article.js'
 import ProfileCard from '../personalCenter/ProfileCard.vue'
 import loginForm from '../common/loginForm.vue'
 import UserCard from '../personalCenter/UserCard.vue'
+import userPanel from '../view/userPanel.vue'
 import {message} from "ant-design-vue";
 export default {
   name: "index",
@@ -141,6 +145,7 @@ export default {
     ProfileCard: ProfileCard,
     loginForm: loginForm,
     UserCard:UserCard,
+    userPanel,
   },
   setup() {
     const {proxy} = getCurrentInstance();
@@ -212,10 +217,14 @@ export default {
 
     const showUserInfo = ref(false)
     const userInfoData = reactive();
+    const userInfo = ref(null)
     const getUserInfoData = () => {
       getUserInfo().then(res => {
 
         proxy.userInfoData = res.data.data;
+        userInfo.value = res.data.data;
+        console.log('信息',userInfo.value);
+
         proxy.$forceUpdate();
         showUserInfo.value = false;
         showUserInfo.value = true;
@@ -330,6 +339,7 @@ export default {
       rule,
       form,
       userData,
+      userInfo,
       codeUrl,
       RefChild,
       switchText,
@@ -679,5 +689,14 @@ export default {
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+}
+
+//用户信息面板
+.panel-wrapper{
+  width: 100%;
+  height: 165px;
+  background-color: #fff;
+  border-radius: 2px;
+  margin-bottom: 5px;
 }
 </style>

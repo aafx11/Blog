@@ -188,8 +188,11 @@ public class UserInfoController extends BaseController {
             userProfileVO.setArticleCount(articleCount);
 
             //计算作者用户的粉丝总数
-            int followerCount = followMapper.selectCount(new LambdaQueryWrapper<Follow>().eq(Follow::getFollowerId, userInfo.getId()));
-            userProfileVO.setFansCount(followerCount);
+            int fansCount = followMapper.selectCount(new LambdaQueryWrapper<Follow>().eq(Follow::getFollowerId, userInfo.getId()));
+            userProfileVO.setFansCount(fansCount);
+
+            int followCount = followMapper.selectCount(new LambdaQueryWrapper<Follow>().eq(Follow::getUserId, userInfo.getId()));
+            userProfileVO.setFollowCount(followCount);
 
             return Result.success(userProfileVO);
         } else {

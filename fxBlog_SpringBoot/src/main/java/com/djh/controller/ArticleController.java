@@ -165,6 +165,8 @@ public class ArticleController extends BaseController {
     @GetMapping("/getPersonalArticle")
     public Result getPersonalArticle(@RequestParam(value = "current", defaultValue = "1") Integer current,
                                      @RequestParam(value = "pageSize", defaultValue = "10") Integer size){
+        System.out.println("当前"+ current);
+        System.out.println("大小" + size);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         UserInfo userInfo  = userInfoService.getByUsername(auth.getName());

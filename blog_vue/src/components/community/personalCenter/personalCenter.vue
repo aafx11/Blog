@@ -39,17 +39,66 @@
     <a-col :lg="{span:8}" :md="{span:17}" :xs="{span:24}" class="center">
       <router-view></router-view>
     </a-col>
-    <a-col :lg="{span:4}" :md="{span:0}" :xs="{span:0}" class="right">
+    <a-col :lg="{span:3}" :md="{span:0}" :xs="{span:0}" class="right">
       <!--个人简介卡片-->
-      <ProfileCard
-          :userInfoData="userInfoData"
-          :articleListData="articleListData"
-          ref="RefChildren"
-          v-if="showUserInfo && showArticle"
+<!--      <ProfileCard-->
+<!--          :userInfoData="userInfoData"-->
+<!--          :articleListData="articleListData"-->
+<!--          ref="RefChildren"-->
+<!--          v-if="showUserInfo && showArticle"-->
 
-      >
+<!--      >-->
 
-      </ProfileCard>
+<!--      </ProfileCard>-->
+      <div class="panel-wrapper"  v-if="showUserInfo">
+        <userPanel :user-info="userInfoData"></userPanel>
+      </div>
+      <!--个人成就-->
+      <div class="panel-wrapper achievement" v-if="showArticle">
+        <div class="panel-title">
+          <div class="panel-txt">个人成就</div>
+        </div>
+        <div class="content">
+          <div class="item">
+            <svg class="item-icon" aria-hidden="true" >
+              <use xlink:href="#icon-tuijian"></use>
+            </svg>
+            <div class="txt">
+              文章被点赞
+              <span>{{articleListData.like}}</span>
+            </div>
+          </div>
+          <div class="item">
+            <svg class="item-icon" aria-hidden="true" >
+              <use xlink:href="#icon-qiyewenhua"></use>
+            </svg>
+            <div class="txt">
+              文章被收藏
+              <span>{{articleListData.collect}}</span>
+            </div>
+          </div>
+          <div class="item">
+            <svg class="item-icon" aria-hidden="true" >
+              <use xlink:href="#icon-liuchengguancha"></use>
+            </svg>
+            <div class="txt">
+              文章被阅读
+              <span>{{articleListData.view}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!--关注和粉丝数量-->
+      <div class="panel-wrapper column" v-if="showUserInfo">
+        <div class="count-item" @click="pushToFollow">
+          <p>关注了</p>
+          <p>{{userInfoData.followCount}}</p>
+        </div>
+        <div class="count-item" @click="pushToFans">
+          <p>关注者</p>
+          <p>{{userInfoData.fansCount}}</p>
+        </div>
+      </div>
     </a-col>
   </a-row>
 </template>
@@ -73,6 +122,9 @@ import {getPersonalArticle} from '../../../request/api/article.js'
 import {test} from '../../../assets/js/iconStyleSwitch.js'
 import message from "ant-design-vue";
 import ProfileCard from './ProfileCard.vue'
+import userPanel from '../view/userPanel.vue'
+import router from "../../../router";
+
 export default defineComponent({
   name: "personalCenter",
   provide() {
@@ -91,6 +143,7 @@ export default defineComponent({
     QqOutlined,
     SettingOutlined,
     ProfileCard:ProfileCard,
+    userPanel,
   },
   setup() {
     const {proxy} = getCurrentInstance();
@@ -112,29 +165,34 @@ export default defineComponent({
     const showUserInfo = ref(false)
     const getUserInfoData = () => {
       getUserInfo().then(res => {
-        console.log("重新获取");
         proxy.userInfoData = res.data.data;
         proxy.$forceUpdate();
-        // proxy.userInfoShow();
         showUserInfo.value = false;
         showUserInfo.value = true;
         console.log("用户个人信息", proxy.userInfoData);
       })
     }
     const count = ref(false)
-    const articleListData = reactive();
+    const articleListData = reactive({});
 
     const showArticle = ref(false)
     const  getArticleListData =  () => {
-      getPersonalArticle().then(res => {
+      getPersonalArticle(1,50).then(res => {
         proxy.articleListData = res.data.data;
-        console.log("文章总数", proxy.articleListData);
-        // articleTotal.value = res.total;
-        // proxy.articleDataShow();
+        proxy.articleListData.like = 0
+        proxy.articleListData.view = 0
+        proxy.articleListData.collect = 0
+        for(let i of proxy.articleListData.records){
+          console.log("文章",i);
+          proxy.articleListData.like = proxy.articleListData.like + i.likeCount
+          proxy.articleListData.view = proxy.articleListData.view + i.view
+          proxy.articleListData.collect = proxy.articleListData.collect + i.collects
+
+        }
         showArticle.value = false
         showArticle.value = true
         proxy.$forceUpdate();
-        console.log("文章信息", proxy.articleListData);
+        console.log("文章信息1", proxy.articleListData);
       })
     }
 
@@ -146,9 +204,13 @@ export default defineComponent({
     //   RefChildren.value.ArticleDataShow();
     // }
 
+    const pushToFollow = () =>{
+      router.push('/myAttention')
+    }
 
-
-
+    const pushToFans = () =>{
+      router.push('/myFanList')
+    }
 
     onMounted(() => {
       getArticleListData();
@@ -168,6 +230,8 @@ export default defineComponent({
       showUserInfo,
       getUserInfoData,
       getArticleListData,
+      pushToFollow,
+      pushToFans
       // userInfoShow,
       // articleDataShow,
     }
@@ -228,6 +292,71 @@ export default defineComponent({
   font-size: 0.9rem;
 }
 
+.panel-wrapper{
+  width: 100%;
+  min-height: 165px;
+  background-color: #fff;
+  border-radius: 2px;
+  margin-bottom: 5px;
 
+}
 
+/*个人成就*/
+.achievement{
+  height: 190px;
+  margin-top: 10px;
+}
+.panel-title{
+  width: 100%;
+  height: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 50px;
+  border-bottom: 1px solid rgb(228, 230, 235);;
+}
+.panel-txt{
+  padding: 0 10px;
+}
+.item {
+  padding: 0 12px 0 20px;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+}
+.item-icon{
+  width: 2em;
+  height: 2em;
+  fill: currentColor;
+  overflow: hidden;
+}
+.item .txt{
+  margin-left: 8px;
+}
+
+/*关注和粉丝数量*/
+p{
+  margin: 0;
+  padding: 0;
+}
+.column{
+  display: flex;
+  min-height: 100px!important;
+}
+.column .count-item:first-child{
+  border-right: 1px solid rgb(228, 230, 235);;
+
+}
+.count-item{
+  font-size: 18px;
+  /*font-weight: 600;*/
+  flex: 1;
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.count-item:hover{
+  color: #868686;
+}
 </style>

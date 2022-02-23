@@ -73,11 +73,11 @@ export const getFollowArticle=(current, size) => {
     })
 }
 
-export const getPersonalArticle=(current, size) => {
+export const getPersonalArticle=(current, PageSize) => {
     return service({
         url:"/article/getPersonalArticle",
         method:'get',
-        params: {current: current, size: size}
+        params: {current: current, pageSize: PageSize}
 
     })
 }

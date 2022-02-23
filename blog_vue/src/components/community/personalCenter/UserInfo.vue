@@ -79,9 +79,17 @@
           :articleListData="provideArticle"
           ref="RefChildren"
           v-if="showUserInfo"
+          style="display: none"
       >
 
       </ProfileCard>
+      <div class="panel-wrapper"  v-if="showUserInfo">
+
+      <userPanel
+          :user-info="userInfoData"
+          type="2"
+      ></userPanel>
+      </div>
     </a-col>
   </a-row>
 </template>
@@ -95,6 +103,8 @@ import {getFollowListByUserId, getFansListByUserId} from '../../../request/api/f
 import ProfileCard from './ProfileCard.vue'
 import ArticleList from './ArticleList.vue'
 import UserCard from './UserCard.vue'
+import userPanel from '../view/userPanel.vue'
+
 import {
   UserOutlined,
   UserSwitchOutlined,
@@ -118,11 +128,12 @@ export default {
     ProfileCard: ProfileCard,
     ArticleList: ArticleList,
     UserCard: UserCard,
+    userPanel,
   },
   setup() {
     const route = useRoute();
     const {proxy} = getCurrentInstance();
-    const userId = ref()
+    const userId = ref(route.params.id)
     const active = ref(1)
 
     const RefChildren = ref();
@@ -139,6 +150,7 @@ export default {
       getUserProfileVOById(userId.value).then(res => {
         const data = res.data.data;
         proxy.userInfoData = data;
+        console.log('文章博主',proxy.userInfoData);
         showUserInfo.value = false;
         showUserInfo.value = true;
 
@@ -223,7 +235,7 @@ export default {
     }
 
     onMounted(() => {
-      userId.value = route.params.id
+      // userId.value = route.params.id
       getUserProfileData();
       getArticleDataByUserId();
       getFollowData();
@@ -326,5 +338,14 @@ export default {
   border-top: 1px solid black;
   border-left: 1px solid black;
   border-bottom: 1px solid black;
+}
+
+.panel-wrapper{
+  width: 100%;
+  min-height: 165px;
+  background-color: #fff;
+  border-radius: 2px;
+  margin-bottom: 5px;
+
 }
 </style>

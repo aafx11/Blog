@@ -55,7 +55,7 @@ service.interceptors.request.use(
     }
     );
 
-//request拦截器
+//response拦截器
 service.interceptors.response.use(
     response => {
         closeLoading()

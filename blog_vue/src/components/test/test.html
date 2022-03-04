@@ -13,10 +13,13 @@
 </body>
 </html>
 <script>
-
- const s = new Set([1,1,2,2,3])
- const arr = Array.from(s)
- console.log(arr);
+ let a= [1,2,3]
+ for (let item in a) {
+     console.log(item);
+ }
+ for (let item of a){
+     console.log(item);
+ }
 </script>
 <style>
     .box4{
